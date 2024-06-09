@@ -24,7 +24,7 @@ def GetAllProducts():
           "id" : product.id,
           "name" : product.name,
           "description" : product.description,
-          "weigth" : product.weigth,
+          "weight" : product.weight,
           "due_date": product.due_date,
           "price": product.price
        }
