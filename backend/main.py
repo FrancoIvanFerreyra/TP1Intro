@@ -30,6 +30,21 @@ def GetAllProducts():
        productsList.append(productData)
     return productsList
 
+@app.route("/products/<id>", methods = ["GET"])
+def GetProduct(id):
+    #Getting product from database
+    product = Product.query.where(Product.id == id).first()
+    if product:
+      productData ={
+          "id" : product.id,
+          "name" : product.name,
+          "description" : product.description,
+          "weight" : product.weight,
+       }
+      return productData, 200
+    else:
+       return jsonify("Error: Product doesn´t exist"), 404
+
 @app.route("/products", methods = ["POST"])
 def AddNewProduct():
     #Unpacking product data
