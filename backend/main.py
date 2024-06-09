@@ -12,7 +12,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 def hello_world():
     return "<p>Hello world</p>"
 
-@app.route("/stock", methods = ["GET"])
+@app.route("/products", methods = ["GET"])
 def GetAllProducts():
     productsList = []
 
@@ -26,28 +26,22 @@ def GetAllProducts():
           "name" : product.name,
           "description" : product.description,
           "weight" : product.weight,
-          "dueDate": product.dueDate,
-          "price": product.price
        }
        productsList.append(productData)
     return productsList
 
-@app.route("/stock", methods = ["POST"])
+@app.route("/products", methods = ["POST"])
 def AddNewProduct():
     #Unpacking product data
     _name = request.json.get("name")
     _description = request.json.get("description")
     _weight = request.json.get("weight")
-    _dueDate = request.json.get("dueDate")
-    _price = request.json.get("price")
 
     #Creating product model
     newProduct = Product(
        name = _name,
        description = _description,
        weight = _weight,
-       dueDate = _dueDate,
-       price = _price
        )
     #Id autoincrement(catching empty table exception)
     try:
