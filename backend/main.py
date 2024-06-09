@@ -52,12 +52,17 @@ def AddNewProduct():
     _description = request.json.get("description")
     _weight = request.json.get("weight")
 
+    #Verifying if already exists in database
+    coincidence = Product.query.where(Product.name == _name, Product.weight == _weight).first()
+    if coincidence:
+        return jsonify("Error, product already exists"), 400
+    
     #Creating product model
     newProduct = Product(
-       name = _name,
-       description = _description,
-       weight = _weight,
-       )
+      name = _name,
+      description = _description,
+      weight = _weight,
+      )
     #Id autoincrement(catching empty table exception)
     try:
       newProduct.id = GetAllProducts()[-1]["id"] + 1
