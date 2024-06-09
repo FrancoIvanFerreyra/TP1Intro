@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from models import db, Product
 
+
 app = Flask(__name__)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@localhost:5432/postgres"
@@ -56,7 +57,10 @@ def AddNewProduct():
     
     #Adding row to table and saving changes
     db.session.add(newProduct)
-    db.session.commit()
+    try:
+      db.session.commit()
+    except Exception as error:
+       return jsonify(f"Error: {error}"), 500
 
     #Result is OK
     return jsonify("Product saved correctly"), 200
