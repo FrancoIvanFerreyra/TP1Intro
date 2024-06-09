@@ -25,7 +25,7 @@ def GetAllProducts():
           "name" : product.name,
           "description" : product.description,
           "weight" : product.weight,
-          "due_date": product.due_date,
+          "dueDate": product.dueDate,
           "price": product.price
        }
        productsList.append(productData)
