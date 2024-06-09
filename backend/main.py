@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, jsonify
 from models import db, Product
 
 app = Flask(__name__)
@@ -30,6 +30,36 @@ def GetAllProducts():
        }
        productsList.append(productData)
     return productsList
+
+@app.route("/stock", methods = ["POST"])
+def AddNewProduct():
+    #Unpacking product data
+    _name = request.json.get("name")
+    _description = request.json.get("description")
+    _weight = request.json.get("weight")
+    _dueDate = request.json.get("dueDate")
+    _price = request.json.get("price")
+
+    #Creating product model
+    newProduct = Product(
+       name = _name,
+       description = _description,
+       weight = _weight,
+       dueDate = _dueDate,
+       price = _price
+       )
+    #Id autoincrement(catching empty table exception)
+    try:
+      newProduct.id = GetAllProducts()[-1]["id"] + 1
+    except IndexError:
+       newProduct.id = 1
+    
+    #Adding row to table and saving changes
+    db.session.add(newProduct)
+    db.session.commit()
+
+    #Result is OK
+    return jsonify("Product saved correctly"), 200
 
 if __name__ == "__main__":
     db.init_app(app)
