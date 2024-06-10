@@ -29,30 +29,31 @@ def GetAllProducts():
        productsList.append(productData)
     return productsList
 
-@app.route("/products/<id>", methods = ["GET"])
+@app.route("/products/<id>", methods = ["GET", "PUT", "DELETE"])
 def GetProduct(id):
     #Getting product from database
     product = Product.query.where(Product.id == id).first()
     if product:
-      productData ={
+      if request.method == "PUT":
+        product.name = request.json.get("name")
+        product.description = request.json.get("description")
+        product.weight = request.json.get("weight")
+        db.session.commit()
+        return jsonify("Product data succesfully changed"), 200
+      
+      elif request.method == "DELETE":
+        db.session.delete(product)
+        db.session.commit()
+        return jsonify("Product deleted succesfully"), 200
+      
+      else:
+        productData ={
           "id" : product.id,
           "name" : product.name,
           "description" : product.description,
           "weight" : product.weight,
        }
-      return productData, 200
-    else:
-       return jsonify("Error: Product doesn´t exist"), 404
-  
-    
-@app.route("/products/<id>", methods = ["DELETE"])
-def DeleteProduct(id):
-    #Getting product from database
-    product = Product.query.where(Product.id == id).first()
-    if product:
-      db.session.delete(product)
-      db.session.commit()
-      return jsonify("Product deleted succesfully"), 200
+        return productData, 200
     else:
        return jsonify("Error: Product doesn´t exist"), 404
 
@@ -67,7 +68,7 @@ def AddNewProduct():
     #Verifying if already exists in database
     coincidence = Product.query.where(Product.name == _name, Product.weight == _weight).first()
     if coincidence:
-        return jsonify("Error, product already exists"), 400
+      return jsonify("Error, product already exists"), 400
     
     #Creating product model
     newProduct = Product(
