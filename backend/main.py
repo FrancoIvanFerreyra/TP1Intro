@@ -3,7 +3,6 @@ from models import db, Product
 
 
 app = Flask(__name__)
-
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@localhost:5432/postgres"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
@@ -44,6 +43,19 @@ def GetProduct(id):
       return productData, 200
     else:
        return jsonify("Error: Product doesn´t exist"), 404
+  
+    
+@app.route("/products/<id>", methods = ["DELETE"])
+def DeleteProduct(id):
+    #Getting product from database
+    product = Product.query.where(Product.id == id).first()
+    if product:
+      db.session.delete(product)
+      db.session.commit()
+      return jsonify("Product deleted succesfully"), 200
+    else:
+       return jsonify("Error: Product doesn´t exist"), 404
+
 
 @app.route("/products", methods = ["POST"])
 def AddNewProduct():
