@@ -24,7 +24,7 @@ def GetAllProducts():
           "id" : product.id,
           "name" : product.name,
           "description" : product.description,
-          "weight" : product.weight,
+          "price" : product.price,
        }
        productsList.append(productData)
     return productsList
@@ -37,7 +37,7 @@ def GetProduct(id):
       if request.method == "PUT":
         product.name = request.json.get("name")
         product.description = request.json.get("description")
-        product.weight = request.json.get("weight")
+        product.price = request.json.get("price")
         db.session.commit()
         return jsonify("Product data succesfully changed"), 200
       
@@ -51,7 +51,7 @@ def GetProduct(id):
           "id" : product.id,
           "name" : product.name,
           "description" : product.description,
-          "weight" : product.weight,
+          "price" : product.price,
        }
         return productData, 200
     else:
@@ -63,10 +63,10 @@ def AddNewProduct():
     #Unpacking product data
     _name = request.json.get("name")
     _description = request.json.get("description")
-    _weight = request.json.get("weight")
+    _price = request.json.get("price")
 
     #Verifying if already exists in database
-    coincidence = Product.query.where(Product.name == _name, Product.weight == _weight).first()
+    coincidence = Product.query.where(Product.name == _name, Product.price == _price).first()
     if coincidence:
       return jsonify("Error, product already exists"), 400
     
@@ -74,7 +74,7 @@ def AddNewProduct():
     newProduct = Product(
       name = _name,
       description = _description,
-      weight = _weight,
+      price = _price,
       )
     #Id autoincrement(catching empty table exception)
     try:
