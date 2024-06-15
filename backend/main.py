@@ -95,7 +95,7 @@ def AddNewProduct():
     return jsonify("Product saved correctly"), 200
 
 
-@app.route("/", methods=["GET"])
+@app.route("/categories", methods=["GET"])
 def get_all_categories():
     categories_list = []
 
