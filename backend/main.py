@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from models import db, Product
+from models import db, Product, Category
 
 
 app = Flask(__name__)
@@ -10,6 +10,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 @app.route("/")
 def hello_world():
     return "<p>Hello world</p>"
+
 
 @app.route("/products", methods = ["GET"])
 def GetAllProducts():
@@ -28,6 +29,7 @@ def GetAllProducts():
        }
        productsList.append(productData)
     return productsList
+
 
 @app.route("/products/<id>", methods = ["GET", "PUT", "DELETE"])
 def GetProduct(id):
@@ -91,6 +93,26 @@ def AddNewProduct():
 
     #Result is OK
     return jsonify("Product saved correctly"), 200
+
+
+@app.route("/", methods=["GET"])
+def get_all_categories():
+    categories_list = []
+
+    #Gets categories from database by 'id' order
+    categories = Category.query.order_by(Category.id).all()
+
+    #Fills the categories list with the correspondent data
+    for category in categories:
+        category_data={
+            "id": category.id,
+            "name": category.name,
+        }
+
+        categories_list.append(category_data)
+
+    return categories_list
+
 
 if __name__ == "__main__":
     db.init_app(app)
