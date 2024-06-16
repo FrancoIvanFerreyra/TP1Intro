@@ -24,6 +24,7 @@ def GetAllProducts():
        productData ={
           "id" : product.id,
           "name" : product.name,
+          "category_id" : product.category_id,
           "description" : product.description,
           "price" : product.price,
        }
@@ -38,6 +39,7 @@ def GetProduct(id):
     if product:
       if request.method == "PUT":
         product.name = request.json.get("name")
+        product.category_id = request.json.get("category_id")
         product.description = request.json.get("description")
         product.price = request.json.get("price")
         db.session.commit()
@@ -52,6 +54,7 @@ def GetProduct(id):
         productData ={
           "id" : product.id,
           "name" : product.name,
+          "category_id" : product.category_id,
           "description" : product.description,
           "price" : product.price,
        }
@@ -64,6 +67,7 @@ def GetProduct(id):
 def AddNewProduct():
     #Unpacking product data
     _name = request.json.get("name")
+    _category_id = request.json.get("category_id")
     _description = request.json.get("description")
     _price = request.json.get("price")
 
@@ -75,6 +79,7 @@ def AddNewProduct():
     #Creating product model
     newProduct = Product(
       name = _name,
+      category_id = _category_id,
       description = _description,
       price = _price,
       )
