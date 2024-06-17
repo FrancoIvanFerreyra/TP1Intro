@@ -162,6 +162,12 @@ def AddNewClient():
       paymentMethod = _paymentMethod
       )
     
+    #Id autoincrement(catching empty table exception)
+    try:
+      newClient.id = GetAllClients()[-1]["id"] + 1
+    except IndexError:
+       newClient.id = 1
+    
     #Adding row to table and saving changes
     db.session.add(newClient)
     try:
