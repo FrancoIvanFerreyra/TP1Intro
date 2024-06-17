@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from models import db, Product
+from models import db, Product, Category
 
 
 app = Flask(__name__)
@@ -10,6 +10,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 @app.route("/")
 def hello_world():
     return "<p>Hello world</p>"
+
 
 @app.route("/products", methods = ["GET"])
 def GetAllProducts():
@@ -23,11 +24,13 @@ def GetAllProducts():
        productData ={
           "id" : product.id,
           "name" : product.name,
+          "category_id" : product.category_id,
           "description" : product.description,
           "price" : product.price,
        }
        productsList.append(productData)
     return productsList
+
 
 @app.route("/products/<id>", methods = ["GET", "PUT", "DELETE"])
 def GetProduct(id):
@@ -36,6 +39,7 @@ def GetProduct(id):
     if product:
       if request.method == "PUT":
         product.name = request.json.get("name")
+        product.category_id = request.json.get("category_id")
         product.description = request.json.get("description")
         product.price = request.json.get("price")
         db.session.commit()
@@ -50,6 +54,7 @@ def GetProduct(id):
         productData ={
           "id" : product.id,
           "name" : product.name,
+          "category_id" : product.category_id,
           "description" : product.description,
           "price" : product.price,
        }
@@ -62,6 +67,7 @@ def GetProduct(id):
 def AddNewProduct():
     #Unpacking product data
     _name = request.json.get("name")
+    _category_id = request.json.get("category_id")
     _description = request.json.get("description")
     _price = request.json.get("price")
 
@@ -73,6 +79,7 @@ def AddNewProduct():
     #Creating product model
     newProduct = Product(
       name = _name,
+      category_id = _category_id,
       description = _description,
       price = _price,
       )
@@ -91,6 +98,26 @@ def AddNewProduct():
 
     #Result is OK
     return jsonify("Product saved correctly"), 200
+
+
+@app.route("/categories", methods=["GET"])
+def get_all_categories():
+    categories_list = []
+
+    #Gets categories from database by 'id' order
+    categories = Category.query.order_by(Category.id).all()
+
+    #Fills the categories list with the correspondent data
+    for category in categories:
+        category_data={
+            "id": category.id,
+            "name": category.name,
+        }
+
+        categories_list.append(category_data)
+
+    return categories_list
+
 
 if __name__ == "__main__":
     db.init_app(app)
