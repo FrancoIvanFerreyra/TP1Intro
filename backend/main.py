@@ -125,6 +125,7 @@ def AddNewClient():
     _surname = request.json.get("surname")
     _email = request.json.get("email")
     _phoneNumber = request.json.get("phoneNumber")
+    _paymentMethod = request.json.get("paymentMethod")
 
     #Verifying if already exists in database
     coincidence = Client.query.where(Client.email == _email).first()
@@ -137,6 +138,7 @@ def AddNewClient():
       surname = _surname,
       email = _email,
       phoneNumber = _phoneNumber,
+      paymentMethod = _paymentMethod
       )
     
     #Adding row to table and saving changes
