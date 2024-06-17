@@ -118,6 +118,27 @@ def get_all_categories():
 
     return categories_list
 
+@app.route("/clients", methods = ["GET"])
+def GetAllClients():
+    clientsList = []
+
+    #Getting all clients from database
+    clients = Client.query.order_by(Client.id).all()
+    for client in clients:
+       
+       #Saving client data in a dictionary
+       clientData ={
+          "id" : client.id,
+          "name" : client.name,
+          "surname" : client.surname,
+          "email" : client.email,
+          "paymentMethod" : str(client.paymentMethod).replace("PaymentMethod.", ""),
+          "phoneNumber" : client.phoneNumber
+       }
+       clientsList.append(clientData)
+    return clientsList
+
+
 @app.route("/clients", methods = ["POST"])
 def AddNewClient():
     #Unpacking client data
