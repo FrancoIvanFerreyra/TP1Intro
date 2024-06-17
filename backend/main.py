@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from models import db, Product, Category
+from models import db, Product, Category, Client
 
 
 app = Flask(__name__)
@@ -117,6 +117,37 @@ def get_all_categories():
         categories_list.append(category_data)
 
     return categories_list
+
+@app.route("/clients", methods = ["POST"])
+def AddNewClient():
+    #Unpacking client data
+    _name = request.json.get("name")
+    _surname = request.json.get("surname")
+    _email = request.json.get("email")
+    _phoneNumber = request.json.get("phoneNumber")
+
+    #Verifying if already exists in database
+    coincidence = Client.query.where(Client.email == _email).first()
+    if coincidence:
+      return jsonify("Error, client already exists"), 400
+    
+    #Creating client model
+    newClient = Client(
+      name = _name,
+      surname = _surname,
+      email = _email,
+      phoneNumber = _phoneNumber,
+      )
+    
+    #Adding row to table and saving changes
+    db.session.add(newClient)
+    try:
+      db.session.commit()
+    except Exception as error:
+       return jsonify(f"Error: {error}"), 500
+
+    #Result is OK
+    return jsonify("Client saved correctly"), 200
 
 
 if __name__ == "__main__":
