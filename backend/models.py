@@ -1,6 +1,14 @@
 from flask_sqlalchemy import SQLAlchemy
+import enum
 
 db = SQLAlchemy()
+
+class PaymentMethod(enum.Enum):
+     CASH = 1
+     BANK_TRANSFER = 2
+     EWALLET_TRANSFER = 3
+     CREDIT_CARD = 4
+     DEBIT_CARD = 5
 
 class Product(db.Model):
      __tablename__ = "products"
@@ -21,6 +29,7 @@ class Client(db.Model):
      name = db.Column(db.String(80), nullable=False)
      surname = db.Column(db.String(80), nullable=False)
      email = db.Column(db.String(80), unique=True, nullable=False)
+     paymentMethod = db.Column(db.Enum(PaymentMethod), nullable=False)
      phoneNumber = db.Column(db.String(80), nullable=False)
      
      
