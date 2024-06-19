@@ -15,7 +15,7 @@ function data_category(data){
     }
 }
 
-fetch("url_homepage_categoty")
+fetch("http://localhost:5000/categories")
 .then(response => response.json())
 .then(data_category)  //add function data_category 
 .catch(handle_error)
@@ -40,7 +40,7 @@ function data_products_category(data_products) {
 
 //productos---------------------------------------
 
-fetch("url_prodcut_category")
+fetch("http://localhost:5000/products")
 .then(response => response.json())
 .then(data_products_category)
 .catch(handle_error)
