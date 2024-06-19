@@ -121,12 +121,14 @@ def get_all_categories():
     return categories_list
 
 def hardcore_db_data():
+    #Defining some elements for categories table
     category_list = [
         {'id':1, 'name':'Perifericos'},
         {'id':2, 'name':'Tarjetas Graficas'},
         {'id':3, 'name':'Procesadores'}
     ]
 
+    #Defining some elements for products table
     product_list = [
         {'id':1, 'name':'Teclado Redragon Kumara K552', 'category_id':1, 'description':'La gran calidad del Redragon Kumara K552, y su precio económico lo vuelven un atractivo ideal para que te diviertas frente a la pantalla.', 'price':80000},
         {'id':2, 'name':'Teclado HyperX Alloy Origins', 'category_id':1, 'description':'Teclado HyperX de alto rendimiento diseñado especialmente para que puedas expresar tanto tus habilidades como tu estilo.', 'price':132100},
@@ -137,7 +139,7 @@ def hardcore_db_data():
         {'id':7, 'name':'GeForce RTX 4090', 'category_id':2, 'description':'GDDR6X, 24GB VRAM, PCI-Express 4.0', 'price':2544700},
         {'id':8, 'name':'XFX Radeon RX 7600 XT', 'category_id':2, 'description':'GDDR6, 8GB VRAM, PCI-Express 4.0', 'price':480110},
         {'id':9, 'name':'Mouse Razer Viper Mini', 'category_id':1, 'description':'Este mouse superligero te ofrecerá la posibilidad de marcar la diferencia y sacar ventajas en tus partidas.', 'price':117830},
-        {'id':10, 'name':'AMD Ryzen 5 4600G', 'category_id':3, 'description':'', 'price':150000},
+        {'id':10, 'name':'AMD Ryzen 5 4600G', 'category_id':3, 'description':'Procesador altamente recomendado por su excelente relación calidad-precio y su rendimiento superior.', 'price':150000},
         {'id':11, 'name':'Auriculares Redragon Zeus X H510', 'category_id':1, 'description':'Diseño over-ear que genera una comodidad insuperable gracias a sus suaves almohadillas y sonido envolvente del mas alto nivel.', 'price':95400},
         {'id':12, 'name':'Intel Core i7 12700', 'category_id':3, 'description':'Asegura el mejor rendimiento de las aplicaciones, de la transferencia de datos y la conexión con otros elementos tecnológicos.', 'price':392000},
         {'id':13, 'name':'Intel Core i9 14900K', 'category_id':3, 'description':'El procesador mas poderoso en el mercado. Productividad y entretenimiento, todo disponible en tu computadora de escritorio.', 'price':918300},
@@ -148,16 +150,24 @@ def hardcore_db_data():
         {'id':18, 'name':'GeForce GTX 1050Ti', 'category_id':2, 'description':'GDDR5, 4 VRAM, PCI-Express 3.0', 'price':198050},
     ]
 
-    # {'id':, 'name':'', 'category_id':, 'description':'', 'price':},
-
+    
     with app.app_context():
-       print("hola")
+        #Converts each element into the specified format and places them into Session
+        for category in category_list:
+           element = Category(id=category['id'], name=category['name'])
+           db.session.add(element)
+        for product in product_list:
+           element = Product(id=product['id'], name=product['name'], category_id=product['category_id'], description=product['description'], price=product['price'])
+           db.session.add(element)
 
-    return
+        #Commits transaction
+        db.session.commit()
+
 
 if __name__ == "__main__":
     db.init_app(app)
     with app.app_context():
       db.create_all()
+    hardcore_db_data()
     app.run(port=5000)
 
