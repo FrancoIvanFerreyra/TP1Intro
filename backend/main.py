@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from models import db, Product, Category
+from models import db, Product, Category, Client
 
 
 app = Flask(__name__)
@@ -117,6 +117,66 @@ def get_all_categories():
         categories_list.append(category_data)
 
     return categories_list
+
+@app.route("/clients", methods = ["GET"])
+def GetAllClients():
+    clientsList = []
+
+    #Getting all clients from database
+    clients = Client.query.order_by(Client.id).all()
+    for client in clients:
+       
+       #Saving client data in a dictionary
+       clientData ={
+          "id" : client.id,
+          "name" : client.name,
+          "surname" : client.surname,
+          "email" : client.email,
+          "paymentMethod" : str(client.paymentMethod).replace("PaymentMethod.", ""),
+          "phoneNumber" : client.phoneNumber
+       }
+       clientsList.append(clientData)
+    return clientsList
+
+
+@app.route("/clients", methods = ["POST"])
+def AddNewClient():
+    #Unpacking client data
+    _name = request.json.get("name")
+    _surname = request.json.get("surname")
+    _email = request.json.get("email")
+    _phoneNumber = request.json.get("phoneNumber")
+    _paymentMethod = request.json.get("paymentMethod")
+
+    #Verifying if already exists in database
+    coincidence = Client.query.where(Client.email == _email).first()
+    if coincidence:
+      return jsonify("Error, client already exists"), 400
+    
+    #Creating client model
+    newClient = Client(
+      name = _name,
+      surname = _surname,
+      email = _email,
+      phoneNumber = _phoneNumber,
+      paymentMethod = _paymentMethod
+      )
+    
+    #Id autoincrement(catching empty table exception)
+    try:
+      newClient.id = GetAllClients()[-1]["id"] + 1
+    except IndexError:
+       newClient.id = 1
+    
+    #Adding row to table and saving changes
+    db.session.add(newClient)
+    try:
+      db.session.commit()
+    except Exception as error:
+       return jsonify(f"Error: {error}"), 500
+
+    #Result is OK
+    return jsonify("Client saved correctly"), 200
 
 
 if __name__ == "__main__":
