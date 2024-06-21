@@ -29,8 +29,8 @@ class Client(db.Model):
      name = db.Column(db.String(80), nullable=False)
      surname = db.Column(db.String(80), nullable=False)
      email = db.Column(db.String(80), unique=True, nullable=False)
-     paymentMethod = db.Column(db.Enum(PaymentMethod), nullable=False)
-     phoneNumber = db.Column(db.String(80), nullable=False)
+     payment_method = db.Column(db.Enum(PaymentMethod), nullable=False)
+     phone_number = db.Column(db.String(80), nullable=False)
      
      
 

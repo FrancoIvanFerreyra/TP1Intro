@@ -13,27 +13,27 @@ def hello_world():
 
 
 @app.route("/products", methods = ["GET"])
-def GetAllProducts():
-    productsList = []
+def get_all_products():
+    products_list = []
 
     #Getting all products from database
     products = Product.query.order_by(Product.id).all()
     for product in products:
        
        #Saving product data in a dictionary
-       productData ={
+       product_data ={
           "id" : product.id,
           "name" : product.name,
           "category_id" : product.category_id,
           "description" : product.description,
           "price" : product.price,
        }
-       productsList.append(productData)
-    return productsList
+       products_list.append(product_data)
+    return products_list
 
 
 @app.route("/products/<id>", methods = ["GET", "PUT", "DELETE"])
-def GetProduct(id):
+def get_product(id):
     #Getting product from database
     product = Product.query.where(Product.id == id).first()
     if product:
@@ -64,7 +64,7 @@ def GetProduct(id):
 
 
 @app.route("/products", methods = ["POST"])
-def AddNewProduct():
+def add_new_product():
     #Unpacking product data
     _name = request.json.get("name")
     _category_id = request.json.get("category_id")
@@ -77,7 +77,7 @@ def AddNewProduct():
       return jsonify("Error, product already exists"), 400
     
     #Creating product model
-    newProduct = Product(
+    new_product = Product(
       name = _name,
       category_id = _category_id,
       description = _description,
@@ -85,12 +85,12 @@ def AddNewProduct():
       )
     #Id autoincrement(catching empty table exception)
     try:
-      newProduct.id = GetAllProducts()[-1]["id"] + 1
+      new_product.id = get_all_products()[-1]["id"] + 1
     except IndexError:
-       newProduct.id = 1
+       new_product.id = 1
     
     #Adding row to table and saving changes
-    db.session.add(newProduct)
+    db.session.add(new_product)
     try:
       db.session.commit()
     except Exception as error:
@@ -119,34 +119,34 @@ def get_all_categories():
     return categories_list
 
 @app.route("/clients", methods = ["GET"])
-def GetAllClients():
-    clientsList = []
+def get_all_clients():
+    clients_list = []
 
     #Getting all clients from database
     clients = Client.query.order_by(Client.id).all()
     for client in clients:
        
        #Saving client data in a dictionary
-       clientData ={
+       client_data ={
           "id" : client.id,
           "name" : client.name,
           "surname" : client.surname,
           "email" : client.email,
-          "paymentMethod" : str(client.paymentMethod).replace("PaymentMethod.", ""),
-          "phoneNumber" : client.phoneNumber
+          "payment_method" : str(client.payment_method).replace("PaymentMethod.", ""),
+          "phone_number" : client.phone_number
        }
-       clientsList.append(clientData)
-    return clientsList
+       clients_list.append(client_data)
+    return clients_list
 
 
 @app.route("/clients", methods = ["POST"])
-def AddNewClient():
+def add_new_client():
     #Unpacking client data
     _name = request.json.get("name")
     _surname = request.json.get("surname")
     _email = request.json.get("email")
-    _phoneNumber = request.json.get("phoneNumber")
-    _paymentMethod = request.json.get("paymentMethod")
+    _phone_number = request.json.get("phone_number")
+    _payment_method = request.json.get("payment_method")
 
     #Verifying if already exists in database
     coincidence = Client.query.where(Client.email == _email).first()
@@ -154,22 +154,22 @@ def AddNewClient():
       return jsonify("Error, client already exists"), 400
     
     #Creating client model
-    newClient = Client(
+    new_client = Client(
       name = _name,
       surname = _surname,
       email = _email,
-      phoneNumber = _phoneNumber,
-      paymentMethod = _paymentMethod
+      phone_number = _phone_number,
+      payment_method = _payment_method
       )
     
     #Id autoincrement(catching empty table exception)
     try:
-      newClient.id = GetAllClients()[-1]["id"] + 1
+      new_client.id = get_all_clients()[-1]["id"] + 1
     except IndexError:
-       newClient.id = 1
+       new_client.id = 1
     
     #Adding row to table and saving changes
-    db.session.add(newClient)
+    db.session.add(new_client)
     try:
       db.session.commit()
     except Exception as error:
