@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
-from models import db, Product, Category, Client
+from models import db, Product, Category, Client, PurchaseOrder
+from sqlalchemy import func
 
 
 app = Flask(__name__)
@@ -177,6 +178,42 @@ def add_new_client():
 
     #Result is OK
     return jsonify("Client saved correctly"), 200
+
+@app.route("/purchase_orders", methods = ["POST"])
+def add_new_purchase_order():
+    #Unpacking order data
+    _client_id = request.json.get("client_id")
+    _product_id = request.json.get("product_id")
+    _product_qty = request.json.get("product_qty")
+    _order_number = request.json.get("order_number")
+
+    #Verifying if product already exists in order from database
+    coincidence = PurchaseOrder.query.where(PurchaseOrder.order_number == _order_number, PurchaseOrder.product_id == _product_id).first()
+    if coincidence:
+      return jsonify("Error, product already exists in order"), 400
+    
+    #Creating order model
+    new_purchase_order = PurchaseOrder(
+      client_id = _client_id,
+      product_id = _product_id,
+      product_qty = _product_qty,
+      order_number = _order_number,
+      )
+    #Id autoincrement(catching empty table exception)
+    try:
+      new_purchase_order.id = db.session.query(func.max(PurchaseOrder.id)).scalar() + 1
+    except TypeError:
+       new_purchase_order.id = 1
+    
+    #Adding row to table and saving changes
+    db.session.add(new_purchase_order)
+    try:
+      db.session.commit()
+    except Exception as error:
+       return jsonify(f"Error: {error}"), 500
+
+    #Result is OK
+    return jsonify("Order saved correctly"), 200
 
 
 if __name__ == "__main__":
