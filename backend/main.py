@@ -115,13 +115,11 @@ def get_all_categories():
             "id": category.id,
             "name": category.name,
         }
-
         categories_list.append(category_data)
-
     return categories_list
 
 
-def hardcore_db_data():
+def hardcode_db_data():
     #Defining some elements for categories table
     category_list = [
         {'id':1, 'name':'Perifericos'},
