@@ -292,17 +292,21 @@ def get_purchase_order(order_id):
   purchase_order_products = PurchaseOrder_Product.query\
     .join(Product, PurchaseOrder_Product.product_id == Product.id)\
     .where(PurchaseOrder_Product.purchase_order_id == order_id)\
-    .with_entities(Product.name, PurchaseOrder_Product.product_qty)\
+    .with_entities(Product.name, Product.price, PurchaseOrder_Product.product_qty)\
     .all()
   
   #Storing products data
   product_data = []
+  total_price = 0
   for product in purchase_order_products:
      new_product = {
         "name": product.name,
-        "qty": product.product_qty
+        "unit price": product.price,
+        "qty": product.product_qty,
+        "subtotal": product.price * product.product_qty
      }
      product_data.append(new_product)
+     total_price += new_product["subtotal"]
 
   #Creating response with all data collected from database
   response = {
@@ -312,7 +316,8 @@ def get_purchase_order(order_id):
      "client_email": purchase_order.email,
      "client_phone_number": purchase_order.phone_number,
      "payment_method": str(purchase_order.payment_method).replace("PaymentMethod.", ""),
-     "products": product_data
+     "products": product_data,
+     "total_price": total_price
   }
   return response, 200
 
