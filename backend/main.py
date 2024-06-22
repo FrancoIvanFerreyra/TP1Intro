@@ -150,17 +150,17 @@ def hardcode_db_data():
     ]
 
     
-    with app.app_context():
-        #Converts each element into the specified format and places them into Session
-        for category in category_list:
-           element = Category(id=category['id'], name=category['name'])
-           db.session.add(element)
-        for product in product_list:
-           element = Product(id=product['id'], name=product['name'], category_id=product['category_id'], description=product['description'], price=product['price'])
-           db.session.add(element)
+    
+    #Converts each element into the specified format and places them into Session
+    for category in category_list:
+        element = Category(id=category['id'], name=category['name'])
+        db.session.add(element)
+    for product in product_list:
+        element = Product(id=product['id'], name=product['name'], category_id=product['category_id'], description=product['description'], price=product['price'])
+        db.session.add(element)
 
-        #Commits transaction
-        db.session.commit()
+    #Commits transaction
+    db.session.commit()
 
 
 @app.route("/clients", methods = ["GET"])
@@ -228,6 +228,6 @@ if __name__ == "__main__":
     db.init_app(app)
     with app.app_context():
       db.create_all()
-    hardcore_db_data()
+      hardcode_db_data()
     app.run(port=5000)
 
