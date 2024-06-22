@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from models import db, Product, Category, Client, PurchaseOrder
+from models import db, Product, Category, Client, PurchaseOrder, PurchaseOrder_Product
 from sqlalchemy import func
 
 
@@ -254,6 +254,21 @@ def add_new_purchase_order():
 
     #Result is OK
     return jsonify("Order saved correctly"), 200
+
+@app.route("/purchase_orders/<order_id>", methods = ["POST"])
+def add_purchase_order_products(order_id):
+  coincidence = PurchaseOrder_Product.query.where(PurchaseOrder_Product.purchase_order_id == order_id).first()
+  if coincidence:
+     return jsonify("Error: order already exists"), 400
+  for item in request.json:
+     new_item = PurchaseOrder_Product(
+        purchase_order_id = order_id,
+        product_id = item["product_id"],
+        product_qty = item["product_qty"]
+     )
+     db.session.add(new_item)
+  db.session.commit()
+  return jsonify("Items succesfully loaded to order"), 200
 
 @app.route("/purchase_orders/<order_number>", methods = ["GET"])
 def get_purchase_order(order_number):
