@@ -184,7 +184,6 @@ def get_all_clients():
           "name" : client.name,
           "surname" : client.surname,
           "email" : client.email,
-          "payment_method" : str(client.payment_method).replace("PaymentMethod.", ""),
           "phone_number" : client.phone_number
        }
        clients_list.append(client_data)
@@ -198,7 +197,6 @@ def add_new_client():
     _surname = request.json.get("surname")
     _email = request.json.get("email")
     _phone_number = request.json.get("phone_number")
-    _payment_method = request.json.get("payment_method")
 
     #Verifying if already exists in database
     coincidence = Client.query.where(Client.email == _email).first()
@@ -210,8 +208,7 @@ def add_new_client():
       name = _name,
       surname = _surname,
       email = _email,
-      phone_number = _phone_number,
-      payment_method = _payment_method
+      phone_number = _phone_number
       )
     
     #Id autoincrement(catching empty table exception)
@@ -237,6 +234,7 @@ def add_new_purchase_order():
     _product_id = request.json.get("product_id")
     _product_qty = request.json.get("product_qty")
     _order_number = request.json.get("order_number")
+    _payment_method = request.json.get("payment_method")
 
     #Preventing client id differences between entries of the same purchase order
     sample_order = PurchaseOrder.query.where(PurchaseOrder.order_number == _order_number).first()
@@ -254,6 +252,7 @@ def add_new_purchase_order():
       client_id = _client_id,
       product_id = _product_id,
       product_qty = _product_qty,
+      payment_method = _payment_method,
       order_number = _order_number,
       )
     #Id autoincrement(catching empty table exception)
@@ -280,9 +279,12 @@ def get_purchase_order(order_number):
     return jsonify("Error, order not found!"), 404
   purchase_order_data = []
   client_id = None
+  payment_method = None
   for entry in purchase_order_entries:
     if client_id == None:
       client_id = entry.client_id
+    if payment_method == None:
+      payment_method = entry.payment_method
     item = {
       "product_id" : entry.product_id,
       "product_qty" : entry.product_qty
@@ -292,6 +294,7 @@ def get_purchase_order(order_number):
   response = {
      "order_number" : order_number,
      "client_id" : client_id,
+     "payment_method" : str(payment_method).replace("PaymentMethod.", ""),
      "products" : purchase_order_data
   }
 
