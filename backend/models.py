@@ -30,7 +30,6 @@ class Client(db.Model):
      name = db.Column(db.String(80), nullable=False)
      surname = db.Column(db.String(80), nullable=False)
      email = db.Column(db.String(80), unique=True, nullable=False)
-     payment_method = db.Column(db.Enum(PaymentMethod), nullable=False)
      phone_number = db.Column(db.String(80), nullable=False)
 
 class PurchaseOrder(db.Model):
@@ -41,6 +40,7 @@ class PurchaseOrder(db.Model):
      client_id = db.Column(db.Integer, db.ForeignKey("clients.id"), nullable=False)
      product_id = db.Column(db.Integer, db.ForeignKey("products.id"), nullable=False)
      product_qty = db.Column(db.Integer, nullable=False)
+     payment_method = db.Column(db.Enum(PaymentMethod), nullable=False)
      
      
 
