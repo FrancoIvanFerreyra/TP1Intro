@@ -35,12 +35,16 @@ class Client(db.Model):
 class PurchaseOrder(db.Model):
      __tablename__ = "purchase_orders"
      id = db.Column(db.Integer, primary_key=True)
-     order_number = db.Column(db.Integer, nullable=False)
      date = db.Column(db.DateTime, default=datetime.now())
      client_id = db.Column(db.Integer, db.ForeignKey("clients.id"), nullable=False)
+     payment_method = db.Column(db.Enum(PaymentMethod), nullable=False)
+
+class PurchaseOrder_Product(db.Model):
+     __tablename__ = "purchase_orders_products"
+     purchase_order_id = db.Column(db.Integer, nullable=False)
      product_id = db.Column(db.Integer, db.ForeignKey("products.id"), nullable=False)
      product_qty = db.Column(db.Integer, nullable=False)
-     payment_method = db.Column(db.Enum(PaymentMethod), nullable=False)
+
      
      
 
