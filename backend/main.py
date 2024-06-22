@@ -260,11 +260,11 @@ def add_purchase_order_products(order_id):
   coincidence = PurchaseOrder_Product.query.where(PurchaseOrder_Product.purchase_order_id == order_id).first()
   if coincidence:
      return jsonify("Error: order already exists"), 400
-  previous_item_id = None
+  previous_items = []
   for item in request.json:
      
      #Preventing multiple entries of the same product
-     if previous_item_id == item["product_id"]:
+     if item["product_id"] in previous_items:
         return jsonify("Error, only one entry per product allowed"), 400 
      new_item = PurchaseOrder_Product(
         purchase_order_id = order_id,
@@ -272,7 +272,7 @@ def add_purchase_order_products(order_id):
         product_qty = item["product_qty"]
      )
      db.session.add(new_item)
-     previous_item_id = item["product_id"]
+     previous_items.append(item["product_id"])
   db.session.commit()
   return jsonify("Items succesfully loaded to order"), 200
 
