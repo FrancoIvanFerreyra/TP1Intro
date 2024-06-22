@@ -41,6 +41,7 @@ class PurchaseOrder(db.Model):
 
 class PurchaseOrder_Product(db.Model):
      __tablename__ = "purchase_orders_products"
+     id = db.Column(db.Integer, primary_key=True)
      purchase_order_id = db.Column(db.Integer, nullable=False)
      product_id = db.Column(db.Integer, db.ForeignKey("products.id"), nullable=False)
      product_qty = db.Column(db.Integer, nullable=False)
