@@ -150,13 +150,18 @@ def hardcode_db_data():
     ]
 
     
-    
     #Converts each element into the specified format and places them into Session
     for category in category_list:
         element = Category(id=category['id'], name=category['name'])
+        coincidence = Category.query.where(element.name == Category.name).first()
+        if(coincidence):
+          continue
         db.session.add(element)
     for product in product_list:
         element = Product(id=product['id'], name=product['name'], category_id=product['category_id'], description=product['description'], price=product['price'])
+        coincidence = Product.query.where(element.name == Product.name).first()
+        if(coincidence):
+          continue
         db.session.add(element)
 
     #Commits transaction
