@@ -301,7 +301,7 @@ def get_purchase_order(order_id):
   for product in purchase_order_products:
      new_product = {
         "name": product.name,
-        "unit price": product.price,
+        "unit_price": product.price,
         "qty": product.product_qty,
         "subtotal": product.price * product.product_qty
      }
