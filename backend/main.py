@@ -283,7 +283,7 @@ def get_purchase_order(order_id):
   purchase_order = PurchaseOrder.query\
     .join(Client, PurchaseOrder.client_id == Client.id)\
     .where(PurchaseOrder.id == order_id)\
-    .with_entities(PurchaseOrder.id, Client.name, Client.surname, Client.email, Client.phone_number, PurchaseOrder.payment_method)\
+    .with_entities(PurchaseOrder.id, PurchaseOrder.date, Client.name, Client.surname, Client.email, Client.phone_number, PurchaseOrder.payment_method)\
     .first()
   if not purchase_order:
     return jsonify("Error, order not found!"), 404
@@ -311,6 +311,7 @@ def get_purchase_order(order_id):
   #Creating response with all data collected from database
   response = {
      "order_id": order_id,
+     "date": purchase_order.date,
      "client_name": purchase_order.name,
      "client_surname": purchase_order.surname,
      "client_email": purchase_order.email,
