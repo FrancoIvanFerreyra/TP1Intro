@@ -231,30 +231,14 @@ def add_new_client():
 def add_new_purchase_order():
     #Unpacking order data
     _client_id = request.json.get("client_id")
-    _product_id = request.json.get("product_id")
-    _product_qty = request.json.get("product_qty")
-    _order_number = request.json.get("order_number")
     _payment_method = request.json.get("payment_method")
-
-    #Preventing client id differences between entries of the same purchase order
-    sample_order = PurchaseOrder.query.where(PurchaseOrder.order_number == _order_number).first()
-    if sample_order:
-       if not sample_order.client_id == _client_id:
-          return jsonify("Error, entries from the same order must have the same client"), 400
-       
-    #Verifying if product already exists in order from database
-    coincidence = PurchaseOrder.query.where(PurchaseOrder.order_number == _order_number, PurchaseOrder.product_id == _product_id).first()
-    if coincidence:
-      return jsonify("Error, product already exists in order"), 400
     
     #Creating order model
     new_purchase_order = PurchaseOrder(
       client_id = _client_id,
-      product_id = _product_id,
-      product_qty = _product_qty,
       payment_method = _payment_method,
-      order_number = _order_number,
       )
+    
     #Id autoincrement(catching empty table exception)
     try:
       new_purchase_order.id = db.session.query(func.max(PurchaseOrder.id)).scalar() + 1
@@ -270,7 +254,6 @@ def add_new_purchase_order():
 
     #Result is OK
     return jsonify("Order saved correctly"), 200
-
 
 @app.route("/purchase_orders/<order_number>", methods = ["GET"])
 def get_purchase_order(order_number):
@@ -290,7 +273,6 @@ def get_purchase_order(order_number):
       "product_qty" : entry.product_qty
     }
     purchase_order_data.append(item)
-  
   response = {
      "order_number" : order_number,
      "client_id" : client_id,
