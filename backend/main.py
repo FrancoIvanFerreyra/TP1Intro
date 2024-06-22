@@ -270,32 +270,46 @@ def add_purchase_order_products(order_id):
   db.session.commit()
   return jsonify("Items succesfully loaded to order"), 200
 
-@app.route("/purchase_orders/<order_number>", methods = ["GET"])
-def get_purchase_order(order_number):
-  purchase_order_entries = PurchaseOrder.query.where(PurchaseOrder.order_number == order_number).all()
-  if not purchase_order_entries:
+@app.route("/purchase_orders/<order_id>", methods = ["GET"])
+def get_purchase_order(order_id):
+  
+  #Getting purchase order data
+  purchase_order = PurchaseOrder.query\
+    .join(Client, PurchaseOrder.client_id == Client.id)\
+    .where(PurchaseOrder.id == order_id)\
+    .with_entities(PurchaseOrder.id, Client.name, Client.surname, Client.email, Client.phone_number, PurchaseOrder.payment_method)\
+    .first()
+  if not purchase_order:
     return jsonify("Error, order not found!"), 404
-  purchase_order_data = []
-  client_id = None
-  payment_method = None
-  for entry in purchase_order_entries:
-    if client_id == None:
-      client_id = entry.client_id
-    if payment_method == None:
-      payment_method = entry.payment_method
-    item = {
-      "product_id" : entry.product_id,
-      "product_qty" : entry.product_qty
-    }
-    purchase_order_data.append(item)
-  response = {
-     "order_number" : order_number,
-     "client_id" : client_id,
-     "payment_method" : str(payment_method).replace("PaymentMethod.", ""),
-     "products" : purchase_order_data
-  }
 
-  return response
+  #Getting the products associated with the order
+  purchase_order_products = PurchaseOrder_Product.query\
+    .join(Product, PurchaseOrder_Product.product_id == Product.id)\
+    .where(PurchaseOrder_Product.purchase_order_id == order_id)\
+    .with_entities(Product.name, PurchaseOrder_Product.product_qty)\
+    .all()
+  
+  #Storing products data
+  product_data = []
+  for product in purchase_order_products:
+     new_product = {
+        "name": product.name,
+        "qty": product.product_qty
+     }
+     product_data.append(new_product)
+
+  #Creating response with all data collected from database
+  response = {
+     "order_id": order_id,
+     "client_name": purchase_order.name,
+     "client_surname": purchase_order.surname,
+     "client_email": purchase_order.email,
+     "client_phone_number": purchase_order.phone_number,
+     "payment_method": str(purchase_order.payment_method).replace("PaymentMethod.", ""),
+     "products": product_data
+  }
+  return response, 200
+
 
 if __name__ == "__main__":
     db.init_app(app)
