@@ -187,6 +187,12 @@ def add_new_purchase_order():
     _product_qty = request.json.get("product_qty")
     _order_number = request.json.get("order_number")
 
+    #Preventing client id differences between entries of the same purchase order
+    sample_order = PurchaseOrder.query.where(PurchaseOrder.order_number == _order_number).first()
+    if sample_order:
+       if not sample_order.client_id == _client_id:
+          return jsonify("Error, entries from the same order must have the same client"), 400
+       
     #Verifying if product already exists in order from database
     coincidence = PurchaseOrder.query.where(PurchaseOrder.order_number == _order_number, PurchaseOrder.product_id == _product_id).first()
     if coincidence:
