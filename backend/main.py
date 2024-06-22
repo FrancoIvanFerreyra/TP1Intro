@@ -216,6 +216,30 @@ def add_new_purchase_order():
     return jsonify("Order saved correctly"), 200
 
 
+@app.route("/purchase_orders/<order_number>", methods = ["GET"])
+def get_purchase_order(order_number):
+  purchase_order_entries = PurchaseOrder.query.where(PurchaseOrder.order_number == order_number).all()
+  if not purchase_order_entries:
+    return jsonify("Error, order not found!"), 404
+  purchase_order_data = []
+  client_id = None
+  for entry in purchase_order_entries:
+    if client_id == None:
+      client_id = entry.client_id
+    item = {
+      "product_id" : entry.product_id,
+      "product_qty" : entry.product_qty
+    }
+    purchase_order_data.append(item)
+  
+  response = {
+     "order_number" : order_number,
+     "client_id" : client_id,
+     "products" : purchase_order_data
+  }
+
+  return response
+
 if __name__ == "__main__":
     db.init_app(app)
     with app.app_context():
