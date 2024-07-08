@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from models import db, Product, Category, Client
+from models import db, Product, Category, Client, PurchaseOrder, PurchaseOrder_Product
+from sqlalchemy import func
+
 
 
 app = Flask(__name__)
@@ -182,7 +184,6 @@ def get_all_clients():
           "name" : client.name,
           "surname" : client.surname,
           "email" : client.email,
-          "payment_method" : str(client.payment_method).replace("PaymentMethod.", ""),
           "phone_number" : client.phone_number
        }
        clients_list.append(client_data)
@@ -196,7 +197,6 @@ def add_new_client():
     _surname = request.json.get("surname")
     _email = request.json.get("email")
     _phone_number = request.json.get("phone_number")
-    _payment_method = request.json.get("payment_method")
 
     #Verifying if already exists in database
     coincidence = Client.query.where(Client.email == _email).first()
@@ -208,8 +208,7 @@ def add_new_client():
       name = _name,
       surname = _surname,
       email = _email,
-      phone_number = _phone_number,
-      payment_method = _payment_method
+      phone_number = _phone_number
       )
     
     #Id autoincrement(catching empty table exception)
@@ -227,6 +226,101 @@ def add_new_client():
 
     #Result is OK
     return jsonify("Client saved correctly"), 200
+
+@app.route("/purchase_orders", methods = ["POST"])
+def add_new_purchase_order():
+    #Unpacking order data
+    _client_id = request.json.get("client_id")
+    _payment_method = request.json.get("payment_method")
+    
+    #Creating order model
+    new_purchase_order = PurchaseOrder(
+      client_id = _client_id,
+      payment_method = _payment_method,
+      )
+    
+    #Id autoincrement(catching empty table exception)
+    try:
+      new_purchase_order.id = db.session.query(func.max(PurchaseOrder.id)).scalar() + 1
+    except TypeError:
+       new_purchase_order.id = 1
+    
+    #Adding row to table and saving changes
+    db.session.add(new_purchase_order)
+    try:
+      db.session.commit()
+    except Exception as error:
+       return jsonify(f"Error: {error}"), 500
+
+    #Result is OK
+    return jsonify("Order saved correctly"), 200
+
+@app.route("/purchase_orders/<order_id>", methods = ["POST"])
+def add_purchase_order_products(order_id):
+  coincidence = PurchaseOrder_Product.query.where(PurchaseOrder_Product.purchase_order_id == order_id).first()
+  if coincidence:
+     return jsonify("Error: order already exists"), 400
+  previous_items = []
+  for item in request.json:
+     
+     #Preventing multiple entries of the same product
+     if item["product_id"] in previous_items:
+        return jsonify("Error, only one entry per product allowed"), 400 
+     new_item = PurchaseOrder_Product(
+        purchase_order_id = order_id,
+        product_id = item["product_id"],
+        product_qty = item["product_qty"]
+     )
+     db.session.add(new_item)
+     previous_items.append(item["product_id"])
+  db.session.commit()
+  return jsonify("Items succesfully loaded to order"), 200
+
+@app.route("/purchase_orders/<order_id>", methods = ["GET"])
+def get_purchase_order(order_id):
+  
+  #Getting purchase order data
+  purchase_order = PurchaseOrder.query\
+    .join(Client, PurchaseOrder.client_id == Client.id)\
+    .where(PurchaseOrder.id == order_id)\
+    .with_entities(PurchaseOrder.id, PurchaseOrder.date, Client.name, Client.surname, Client.email, Client.phone_number, PurchaseOrder.payment_method)\
+    .first()
+  if not purchase_order:
+    return jsonify("Error, order not found!"), 404
+
+  #Getting the products associated with the order
+  purchase_order_products = PurchaseOrder_Product.query\
+    .join(Product, PurchaseOrder_Product.product_id == Product.id)\
+    .where(PurchaseOrder_Product.purchase_order_id == order_id)\
+    .with_entities(Product.name, Product.price, PurchaseOrder_Product.product_qty)\
+    .all()
+  
+  #Storing products data
+  product_data = []
+  total_price = 0
+  for product in purchase_order_products:
+     new_product = {
+        "name": product.name,
+        "unit_price": product.price,
+        "qty": product.product_qty,
+        "subtotal": product.price * product.product_qty
+     }
+     product_data.append(new_product)
+     total_price += new_product["subtotal"]
+
+  #Creating response with all data collected from database
+  response = {
+     "order_id": order_id,
+     "date": purchase_order.date,
+     "client_name": purchase_order.name,
+     "client_surname": purchase_order.surname,
+     "client_email": purchase_order.email,
+     "client_phone_number": purchase_order.phone_number,
+     "payment_method": str(purchase_order.payment_method).replace("PaymentMethod.", ""),
+     "products": product_data,
+     "total_price": total_price
+  }
+  return response, 200
 
 
 if __name__ == "__main__":
