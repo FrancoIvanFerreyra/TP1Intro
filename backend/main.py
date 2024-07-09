@@ -144,7 +144,7 @@ def hardcode_db_data():
         {'id':11, 'name':'Auriculares Redragon Zeus X H510', 'category_id':1, 'description':'Diseño over-ear que genera una comodidad insuperable gracias a sus suaves almohadillas y sonido envolvente del mas alto nivel.', 'price':95400, 'image':'images/perifericos/ZeusX_H510.jpg'},
         {'id':12, 'name':'Intel Core i7 12700', 'category_id':3, 'description':'Asegura el mejor rendimiento de las aplicaciones, de la transferencia de datos y la conexión con otros elementos tecnológicos.', 'price':392000, 'image':'images/cpu/i7_12700.jpg'},
         {'id':13, 'name':'Intel Core i9 14900K', 'category_id':3, 'description':'El procesador mas poderoso en el mercado. Productividad y entretenimiento, todo disponible en tu computadora de escritorio.', 'price':918300, 'image':'images/cpu/i9_14900K.jpg'},
-        {'id':14, 'name':'Asrock Radeon RX 6600', 'category_id':2, 'description':'La decodificación de los píxeles en tu pantalla te harán ver hasta los detalles más ínfimos en cada ilustración.', 'price':302100, 'image':'images/cpu/AsrockRX_7600.jpg'},
+        {'id':14, 'name':'Asrock Radeon RX 6600', 'category_id':2, 'description':'La decodificación de los píxeles en tu pantalla te harán ver hasta los detalles más ínfimos en cada ilustración.', 'price':302100, 'image':'images/gpu/AsrockRX_7600.jpg'},
         {'id':15, 'name':'Intel Pentium Gold G5400', 'category_id':3, 'description':'2 Nucleos y 2 Hilos, consumo de 54 W.', 'price':69000, 'image':'images/cpu/Pentium_Gold_G5400.jpg'},
         {'id':16, 'name':'GeForce RTX 3060', 'category_id':2, 'description':'12 GB de memoria GDDR6 y una velocidad de 15000 MHz, conexión rápida y estable a la placa madre.', 'price':434600, 'image':'images/gpu/RTX_3060.jpg'},
         {'id':17, 'name':'AMD Ryzen 3 3100', 'category_id':3, 'description':'3,59 GHz, 4 Nucleos 8 Hilos.', 'price':108000, 'image':'images/cpu/Ryzen3_3100.jpg'},
@@ -160,7 +160,7 @@ def hardcode_db_data():
           continue
         db.session.add(element)
     for product in product_list:
-        element = Product(id=product['id'], name=product['name'], category_id=product['category_id'], description=product['description'], price=product['price'])
+        element = Product(id=product['id'], name=product['name'], category_id=product['category_id'], description=product['description'], price=product['price'], image=product['image'])
         coincidence = Product.query.where(element.name == Product.name).first()
         if(coincidence):
           continue
