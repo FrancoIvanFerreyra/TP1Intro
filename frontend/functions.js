@@ -99,5 +99,20 @@ function handle_error(){
 //-------------------------------------------------------------------------------------
 
 
+//----------------------------------Funciones para  redirigir -----------------------------------------------------------
+function translate_carrito(){
+    window.location.href="cart.html"
+}
+
+function translate_compras(){
+    window.location.href="shopping.html"
+
+}
+
+function translate_home(){
+    window.location.href="index.html"
+}
+//------------------------------------------------------------------------------------------------
+
 
 
