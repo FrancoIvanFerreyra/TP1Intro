@@ -77,6 +77,7 @@ def add_new_product():
     _category_id = request.json.get("category_id")
     _description = request.json.get("description")
     _price = request.json.get("price")
+    _image = request.json.get("image")
 
     #Verifying if already exists in database
     coincidence = Product.query.where(Product.name == _name, Product.price == _price).first()
@@ -89,6 +90,7 @@ def add_new_product():
       category_id = _category_id,
       description = _description,
       price = _price,
+      image = _image,
       )
     #Id autoincrement(catching empty table exception)
     try:
