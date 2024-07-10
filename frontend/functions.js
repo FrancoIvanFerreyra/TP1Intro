@@ -100,11 +100,11 @@ function handle_error(){
 
 
 //----------------------------------Funciones para  redirigir -----------------------------------------------------------
-function translate_carrito(){
+function translate_cart(){
     window.location.href="cart.html"
 }
 
-function translate_compras(){
+function translate_shopping(){
     window.location.href="shopping.html"
 
 }
