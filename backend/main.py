@@ -31,6 +31,7 @@ def get_all_products():
           "category_id" : product.category_id,
           "description" : product.description,
           "price" : product.price,
+          "image" : product.image,
        }
        products_list.append(product_data)
     return products_list
@@ -46,6 +47,7 @@ def get_product(id):
         product.category_id = request.json.get("category_id")
         product.description = request.json.get("description")
         product.price = request.json.get("price")
+        product.image = request.json.get("image")
         db.session.commit()
         return jsonify("Product data succesfully changed"), 200
       
@@ -61,6 +63,7 @@ def get_product(id):
           "category_id" : product.category_id,
           "description" : product.description,
           "price" : product.price,
+          "image" : product.image,
        }
         return productData, 200
     else:
