@@ -18,6 +18,7 @@ class Product(db.Model):
      category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
      description = db.Column(db.String(150))
      price = db.Column(db.Float, nullable=False)
+     image = db.Column(db.String(100), default='images/default.jpg')
 
 class Category(db.Model):
      __tablename__ = "categories"
