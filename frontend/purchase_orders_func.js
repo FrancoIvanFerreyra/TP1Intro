@@ -57,10 +57,15 @@ function request_order_data(order_id)
 function parse_order_data(data)
 {
     const main_container = document.getElementById("main");
+    
     const order_container = document.createElement("article");
+    order_container.setAttribute("class", "order-container");
+    
     const order_head = document.createElement("section");
+    order_head.setAttribute("class", "order-head");
+
     const text_labels = {
-        "order_id" : "Numero de orden",
+        "order_id" : "N° de orden",
         "date" : "Fecha",
         "client_name" : "Nombre",
         "client_surname" : "Apellido",
@@ -78,12 +83,15 @@ function parse_order_data(data)
         {
             console.log(index);
             const item = document.createElement("li");
-            
+            item.setAttribute("class", "order-head-item");
+
             const item_key = document.createElement("p");
+            item_key.setAttribute("class", "order-head-item-key");
             item_key.innerText = text_labels[dict_keys[index]];
             item.append(item_key);
             
             const item_value = document.createElement("p");
+            item_value.setAttribute("class", "order-head-item-value");
             item_value.innerText = data[dict_keys[index]];
             item.append(item_value);
             
