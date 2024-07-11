@@ -1,8 +1,27 @@
 const data = document.getElementById("order_id");
 function send_order_data()
 {
+    let str = data.value.toString();
+    let index = 0;
+    console.log("Before: " + str);
+    let isSliced = false;
+    while(index < str.length && !isSliced)
+    {
+        if(str[index] == "0")
+        {
+            str = str.slice(1);
+        }
+        else
+        {
+            isSliced = true;
+        }
+    }
+    if (str == "")
+    {
+        return alert("Error, numero de orden inválido!");
+    }
     
-    console.log(data.value);
+    console.log("After: " + str);
 
 }
 
