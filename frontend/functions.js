@@ -2,23 +2,26 @@
 
 
 function buttons_categorie(category_list){
+    
     const categorie = document.getElementById("category")  
   
 
     for(let index = 0; index < category_list.length; index++){
         const element_list = document.createElement("li");
-        elemento_lista.innerHTML = `
+            
+        element_list.innerHTML = `
     
-        <button class="menu-categorie button-categorie" id="${category_list[index].id}" onclick="products(this)"</button>  
+        <button class="menu-categorie category-button" id="${category_list[index].id}" onclick="products(this)">${category_list[index].name}</button>  
    
      `  
+    
         categorie.append(element_list);
     
-        const botonescategoria = document.querySelectorAll(".button-categorie");
-        botonescategoria.forEach(boton => {
+        const buttonscategorie = document.querySelectorAll(".category-button");
+        buttonscategorie.forEach(boton => {
         boton.addEventListener("click", (e) => {
-
-        botonescategoria.forEach(boton => boton.classList.remove("active"))
+        
+        buttonscategorie.forEach(boton => boton.classList.remove("active"))
 
         e.currentTarget.classList.add("active");
         } )
@@ -30,30 +33,35 @@ function buttons_categorie(category_list){
 
 
 function  load_products(id){   
-
+  
     const title = document.getElementById("main-title");
     title.innerText = category_list[id-1].name;
+   
+    const products = document.getElementById("products-container");
 
-
-    const products = document.getElementById("container-products");
     products.innerHTML = ""
-
+    
     for(let index = 0; index<data_prod.length;index++){
+      
         const nombre = data_prod[index].category_id
+     
         if(id == nombre){
+        console.log(nombre)
         const div = document.createElement("div");  //creo un div por producto
 
         div.setAttribute("class","product");
         div.innerHTML = `
             
-            <img  class="image-product" src="${data_prod[index].imagen}" alt="${data_prod[index].nombre}">
             <div class="description">
+                <img  class="image-product" src="${data_prod[index].image}">
                 <h3 class="name-product">${data_prod[index].name}</h3>
                 <p class="product-price">$${data_prod[index].price}</p>
                 <button class="add-cart" id="${data_prod[index].id}">Agregar al carrito</button>
+                <button class="see-more" id="${data_prod[index].id}" onclick="product_page(this)"><i class="bi bi-eye-fill"></i></button>
             </div>
 
          `  ;
+           
          products.append(div);
 
         }
@@ -69,8 +77,14 @@ function handle_error(){
 //----------------------------------------------------------------------------------------------------------------
 
 
+function product_page(coup){
+    const id = coup.id
+    window.location.href=`/product?id=${id}`
+}
+
+
 //-------------------------------Funciones para conectar el back---------------------------------------------------
-      fetch(url_categorie)
+      fetch("http://localhost:5000/categories")
         .then(response => response.json())
         .then(
             data => {
@@ -82,20 +96,18 @@ function handle_error(){
         .catch(handle_error)
 
 
-
         function products(coup){
             let id = coup.id
-            console.log(id)
-            fetch(url_products)
+            fetch("http://localhost:5000/products")
             .then(content => content.json())
-            .then(data_products => {
-                    data_prod = data_products;
+            .then(products_list => {
+                    data_prod = products_list;
                     load_products(id)
                 })
             .catch(handle_error)    
         }
     
-    
+  
 //-------------------------------------------------------------------------------------
 
 
@@ -110,7 +122,7 @@ function translate_shopping(){
 }
 
 function translate_home(){
-    window.location.href="index.html"
+    window.location.href="/"
 }
 //------------------------------------------------------------------------------------------------
 
