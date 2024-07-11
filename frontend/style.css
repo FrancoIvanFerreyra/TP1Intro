@@ -7,19 +7,18 @@
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
-h1, h2, h3, p, a, ul {
+h1, h2, h3, p, a, ul{
     margin:0;
     padding:0;
 }    
 
-ul {
+ul{
     list-style-type: none;
 }
 
-a {
+a{
     text-decoration: none;
 }
-
 
 .main-container{
     display: grid;
@@ -29,7 +28,7 @@ a {
 
 /*background-color: rgb(22, 160, 133); color alternativo*/
 
-aside {
+aside{
     padding: 2rem;
     padding-right: 0;
     color: rgb(255, 255, 255);
@@ -45,16 +44,11 @@ aside {
     font-weight: 400;
     font-size: 1.5rem;
     background-color: transparent;
-
     color:white;
-
     cursor: pointer;
-    
 }
 
-
-
-.menu-nav {
+.menu-nav{
     display: flex;
     flex-direction: column;
     gap: .5rem
@@ -90,8 +84,6 @@ aside {
     padding: 1rem;
 }
 
-
-
 .menu-cart.active{
     background-color: rgb(229, 231, 233);
     color:rgb(22, 160, 133);;
@@ -102,15 +94,14 @@ aside {
     color:rgb(22, 160, 133);
     padding: .15rem .25rem;
     border-radius: 0.25rem;
-
 }
 
 .footer-text{
-   color: rgb(212, 212, 212);
-   font-size: .80rem;
+    color: rgb(212, 212, 212);
+    font-size: .80rem;
 }
 
-main {
+main{
     background-color: rgb(229, 231, 233);
     margin: 1rem;
     margin-left: 0;
@@ -118,10 +109,9 @@ main {
     padding: 3rem;
 }
 
-.name-category {
-   color: rgb(22, 160, 133);
+.name-category{
+    color: rgb(22, 160, 133);
     margin-bottom: 2rem;
-
 }
 
 
@@ -152,7 +142,6 @@ main {
 }
 
 .add-cart{
-
     background-color: rgb(242, 244, 244);
     color: rgb(0, 0, 0);
     border-radius: 2rem;
@@ -160,7 +149,6 @@ main {
     text-transform: uppercase;
     cursor: pointer;
     border: 2px solid white;
-    
 } 
 
 .add-cart:hover{
@@ -172,7 +160,6 @@ main {
 
 .bought{
     color: rgb(22, 160, 133);
-  
 }
 
 .container-cart{
@@ -183,7 +170,6 @@ main {
 
 .cart-void{
     color: rgb(22, 160, 133);
-   
 }
 
 .subtitle{
@@ -204,7 +190,6 @@ main {
     color: rgb(22, 160, 133);
     padding: .5rem;
     border-radius: 1rem;
- 
 }
 
 .product-image-cart{
@@ -212,7 +197,7 @@ main {
     border-radius: 1rem;
 }
 
-.cart-product small {
+.cart-product small{
     font-size: 0.75rem;
 }
 
@@ -237,6 +222,7 @@ main {
     text-transform: uppercase;
     cursor: pointer;
 }
+
 .cart-actions-empty:hover{
     background-color: rgb(22, 160, 133);
     color: white;
@@ -267,9 +253,7 @@ main {
     cursor: pointer;
 }
 
-
 /*Desactivo todos los elementos del carrito solo para diseño*/
-
 .disabled{
     display: none;
 }
