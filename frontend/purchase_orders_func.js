@@ -39,9 +39,59 @@ function slice_data()
 function request_order_data(order_id)
 {
     fetch("http://localhost:5000/purchase_orders/" + order_id)
-    .then(response => response.json())
-    .then(data => console.log(data))
+    .then(function(response) {
+        if(response.ok)
+        {
+            return response.json();
+        }
+        else
+        {
+            throw undefined;
+        }
+
+    })
+    .then(data => parse_order_data(data))
     .catch(e => handle_error(e));
+}
+
+function parse_order_data(data)
+{
+    const main_container = document.getElementById("main");
+    const order_container = document.createElement("article");
+    const order_head = document.createElement("section");
+    const text_labels = {
+        "order_id" : "Numero de orden",
+        "date" : "Fecha",
+        "client_name" : "Nombre",
+        "client_surname" : "Apellido",
+        "client_email" : "Email",
+        "client_phone_number" : "Telefono",
+        "payment_method" : "Metodo de pago",
+        "products" : "Productos",
+        "total_price" : "Total"
+    }
+    const dict_keys = Object.keys(text_labels);
+    console.log(dict_keys);
+    for(let index = 0; index < dict_keys.length; index++)
+    {
+        if(dict_keys[index] != "products" && dict_keys[index] != "total_price")
+        {
+            console.log(index);
+            const item = document.createElement("li");
+            
+            const item_key = document.createElement("p");
+            item_key.innerText = text_labels[dict_keys[index]];
+            item.append(item_key);
+            
+            const item_value = document.createElement("p");
+            item_value.innerText = data[dict_keys[index]];
+            item.append(item_value);
+            
+            order_head.append(item);
+        }
+    }
+    order_container.append(order_head);
+    main_container.append(order_container);
 }
 
 function handle_error(e)
