@@ -1,5 +1,14 @@
 const data = document.getElementById("order_id");
-function send_order_data()
+
+function handle_data()
+{
+    let order_id = slice_data();
+    if (order_id != 0)
+    {
+        request_order_data(order_id);
+    }
+}
+function slice_data()
 {
     let str = data.value.toString();
     let index = 0;
@@ -18,11 +27,26 @@ function send_order_data()
     }
     if (str == "")
     {
-        return alert("Error, numero de orden inválido!");
+        alert("Error, numero de orden inválido!");
+        return 0;
     }
     
     console.log("After: " + str);
+    return parseInt(str);
 
+}
+
+function request_order_data(order_id)
+{
+    fetch("http://localhost:5000/purchase_orders/" + order_id)
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(e => handle_error(e));
+}
+
+function handle_error(e)
+{
+    console.log("Error: " + e);
 }
 
 const invalid_characters = ["e", "+", "-"];
