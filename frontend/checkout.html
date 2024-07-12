@@ -36,10 +36,36 @@
             </footer>
         </aside>
         <main>
-            <h2 class="name-category" id="main-title">Hola</h2>
-            <div class="main-container-products" id="products-container">
-            </div>
-
+            <h1 class="name-category" id="name-category-checkout">¡Ya casi es tuyo!</h2>
+            <h3 class="sub-title"> Complete los datos:</h3>
+            
+            <form onsubmit="send_form()">
+                <div class="checkout_nombre_apellido">
+                    <label for="name">Nombre</label>
+                    <input type="text" id="name" class="checkout_input" placeholder="John">
+                    <label for="surname">Apellido</label>
+                    <input type="text" id="surname" class="checkout_input" placeholder="Doe">
+                </div>
+                <div class="checkout_email">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="checkout_input" placeholder="johndoe@example.com" size="35">
+                </div>
+                <div class="checkout_phone_number">
+                    <label for="phone_number">Numero celular</label>
+                    <input type="tel" id="phone_number" class="checkout_input" placeholder="11XXXXXXXX" maxlength="10" size="9">
+                </div>
+                <div class="checkout_payment_method">
+                    <label for="payment_method">Metodo de pago:</label>
+                    <select id="payment_method" class="checkout_input" placeholder="johndoe@example.com">
+                        <option value="a">hola</option>
+                        <option value="b">chau</option>
+                        <option value="c">nacho</option>
+                        <option value="d">franco</option>
+                        <option value="e">pili</option>
+                    </select>
+                </div>
+                <button type="submit" id="checkout_button">ENVIAR</button>
+            </form>
         </main>
     </div>
 </body>
