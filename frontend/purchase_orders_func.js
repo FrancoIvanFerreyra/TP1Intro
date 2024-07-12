@@ -193,6 +193,25 @@ function parse_order_data(data)
 
     });
 
+    const total_price_container = document.createElement("li");
+    total_price_container.setAttribute("class", "product-container");
+    
+    price_title = document.createElement("p");
+    price_title.setAttribute("class", "total-price-title");
+    price_title.innerHTML = "VALOR TOTAL DE ORDEN DE COMPRA:";
+    total_price_container.append(price_title);
+
+    price_data = document.createElement("p");
+    price_data.setAttribute("class", "total-price-data");
+    price_data.innerHTML = data["total_price"];
+    total_price_container.append(price_data);
+
+    order_products.append(total_price_container);
+    product_counter++;
+    order_products.style.gridTemplateRows = "3rem repeat(" + product_counter + ", 8rem)";
+
+
+
     order_container.append(order_products);
 
     main_container.append(order_container);

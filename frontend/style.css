@@ -329,6 +329,16 @@ main {
     width: 60%;
 }
 
+.total-price-title{
+    grid-column: 1 / 5;
+    font-size: xx-large;
+}
+
+.total-price-data{
+    grid-column: 5;
+    font-size: xx-large;
+}
+
 .error-container{
     display: grid;
     grid-template-rows: 1fr 1fr;
