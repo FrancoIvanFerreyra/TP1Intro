@@ -40,13 +40,20 @@ function request_order_data(order_id)
 {
     fetch("http://localhost:5000/purchase_orders/" + order_id)
     .then(function(response) {
+        
+        const previous_order = document.querySelector(".order-container, .error-container");
+        if (previous_order != null)
+        {
+            previous_order.remove();
+        }
+
         if(response.ok)
         {
             return response.json();
         }
         else
         {
-            throw undefined;
+            show_error_message();
         }
 
     })
@@ -54,8 +61,31 @@ function request_order_data(order_id)
     .catch(e => handle_error(e));
 }
 
+function show_error_message()
+{
+    const order_container = document.createElement("article");
+    const main_container = document.getElementById("main");
+    order_container.setAttribute("class", "error-container");
+
+    const error_text = document.createElement("p");
+    error_text.setAttribute("class", "error-text");
+    error_text.innerHTML = "La order de compra ingresada no existe"
+
+    const error_img = document.createElement("img");
+    error_img.setAttribute("class", "product-img error-img");
+    error_img.setAttribute("src", "http://localhost:5000/images/icons/error-icon-25243.png")
+
+    
+    
+    order_container.append(error_text);
+    order_container.append(error_img);
+    main_container.append(order_container);
+}
+
 function parse_order_data(data)
 {
+    
+
     const main_container = document.getElementById("main");
     
     const order_container = document.createElement("article");
