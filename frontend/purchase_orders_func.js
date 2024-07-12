@@ -77,27 +77,30 @@ function parse_order_data(data)
     }
     const order_head_keys = Object.keys(text_labels_head);
     console.log(order_head_keys);
+
+    const order_head_title = document.createElement("li");
+    order_head_title.setAttribute("class", "order-head-item");
+    const order_head_data = document.createElement("li");
+    order_head_data.setAttribute("class", "order-head-item");
+
     for(let index = 0; index < order_head_keys.length; index++)
     {
         if(order_head_keys[index] != "products" && order_head_keys[index] != "total_price")
         {
-            console.log(index);
-            const item = document.createElement("li");
-            item.setAttribute("class", "order-head-item");
+            const item_title = document.createElement("p");
+            item_title.innerText = text_labels_head[order_head_keys[index]];
+            order_head_title.append(item_title);
 
-            const item_key = document.createElement("p");
-            item_key.setAttribute("class", "order-head-item-key");
-            item_key.innerText = text_labels_head[order_head_keys[index]];
-            item.append(item_key);
-            
-            const item_value = document.createElement("p");
-            item_value.setAttribute("class", "order-head-item-value");
-            item_value.innerText = data[order_head_keys[index]];
-            item.append(item_value);
-            
-            order_head.append(item);
+            const item_data = document.createElement("p");
+            item_data.innerText = data[order_head_keys[index]];
+            order_head_data.append(item_data);       
         }
     }
+    order_head.append(order_head_title);
+    order_head.append(order_head_data);
+    
+
+    
     order_container.append(order_head);
 
     const display_border = document.createElement("p");
@@ -108,6 +111,7 @@ function parse_order_data(data)
     order_products.setAttribute("class", "order-products");
 
     text_labels_products = {
+        "image": "Imagen",
         "name" : "Nombre",
         "qty" : "Cantidad",
         "unit_price" : "Precio unitario",
@@ -118,39 +122,45 @@ function parse_order_data(data)
     console.log(order_products_keys);
 
 
-
+    const tags_container = document.createElement("li");
+    tags_container.setAttribute("class", "product-container");
     
     for(let index = 0; index < order_products_keys.length; index++)
     {
-        const item = document.createElement("li");
-        item.setAttribute("class", "order-head-item");
-
-        const item_key = document.createElement("p");
-        item_key.setAttribute("class", "order-head-item-key");
-        item_key.innerText = text_labels_products[order_products_keys[index]];
-
-        item.append(item_key);
-
-        order_products.append(item);
-        order_products.style.gridTemplateRows = "repeat(1, 3rem)";
+        const item = document.createElement("p");
+        item.innerText = text_labels_products[order_products_keys[index]];
+        tags_container.append(item);
     }
+    order_products.append(tags_container);
+    order_products.style.gridTemplateRows = "repeat(1, 3rem)";
+
+    var product_counter = 0;
     data["products"].forEach(product => {
+        const product_container = document.createElement("li");
+        product_container.setAttribute("class", "product-container");
+
         for(let index = 0; index < order_products_keys.length; index++)
+        {
+            console.log(index);
+            var item = "";
+            if(order_products_keys[index] != "image")
             {
-                console.log(index);
-        
-                const item = document.createElement("li");
-                item.setAttribute("class", "order-head-item");
-        
-                const item_value = document.createElement("p");
-                item_value.setAttribute("class", "order-head-item-value");
-                item_value.innerText = product[order_products_keys[index]];
-        
-                item.append(item_value);
-                
-                order_products.append(item);
-                order_products.style.gridTemplateRows = "repeat(" + (index + 1) + ", 3rem)";
+                item = document.createElement("p");
             }
+            else
+            {
+                item = document.createElement("img");
+                item.setAttribute("src", "http://localhost:5000/images/" + product["image"]);
+                item.setAttribute("class", "product-img");
+            }
+            
+            item.innerText = product[order_products_keys[index]];
+            product_container.append(item);
+        }
+        order_products.append(product_container);
+        product_counter++;
+        order_products.style.gridTemplateRows = "3rem repeat(" + product_counter + ", 8rem)";
+
     });
 
     order_container.append(order_products);
