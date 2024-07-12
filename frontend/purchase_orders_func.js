@@ -113,6 +113,14 @@ function parse_order_data(data)
     const order_head_data = document.createElement("li");
     order_head_data.setAttribute("class", "order-head-item");
 
+    payment_methods_texts = {
+        "CASH" : "Efectivo",
+        "BANK_TRANSFER" : "Transferencia",
+        "EWALLET_TRANSFER" : "Mercado Pago",
+        "CREDIT_CARD" : "Crédito",
+        "DEBIT_CARD" : "Débito",
+    }
+
     for(let index = 0; index < order_head_keys.length; index++)
     {
         if(order_head_keys[index] != "products" && order_head_keys[index] != "total_price")
@@ -122,7 +130,15 @@ function parse_order_data(data)
             order_head_title.append(item_title);
 
             const item_data = document.createElement("p");
-            item_data.innerText = data[order_head_keys[index]];
+
+            if(order_head_keys[index] == "payment_method")
+            {
+                item_data.innerText = payment_methods_texts[data[order_head_keys[index]]];
+            }
+            else
+            {
+                item_data.innerText = data[order_head_keys[index]];
+            }
             order_head_data.append(item_data);       
         }
     }
