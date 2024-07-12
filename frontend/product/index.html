@@ -5,7 +5,249 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compra PC</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");</style>
+    <style>@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        
+        h1, h2, h3, p, a, ul {
+            margin:0;
+            padding:0;
+        }    
+        
+        ul {
+            list-style-type: none;
+        }
+        
+        a {
+            text-decoration: none;
+        }
+        
+        img {
+            max-width: 100%;
+        }
+
+        .main-container{
+            display: grid;
+            grid-template-columns: 1fr 4fr;
+            background-image: radial-gradient(circle, #4b6cb7 10%, #182848 90%);
+        }
+        
+        /*background-color: rgb(22, 160, 133); color alternativo*/
+        
+        asside {
+            padding: 2rem;
+            padding-right: 0;
+            color: rgb(255, 255, 255);
+            position: sticky;
+            height: 100vh;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content:space-between;
+        }
+        
+        .logo{
+            font-weight: 400;
+            font-size: 1.5rem;
+            background-color: transparent;
+        
+            color:white;
+        
+            cursor: pointer;
+            
+        }
+        
+        
+        
+        .menu-nav {
+            display: flex;
+            flex-direction: column;
+            gap: .5rem
+        }
+        
+        .menu-categorie{
+            background-color: transparent;
+            border: 0;
+            color:white;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            gap: 1rem;
+            font-weight: 600;
+            padding: 1rem;
+            width: 100%;
+        }
+        
+        .menu-categorie.active{
+            background-color: rgb(229, 231, 233);
+            color:rgb(22, 160, 133);;
+        }
+        
+        .menu-cart{
+            background-color: transparent;
+            border: 0;
+            color:white;
+            font-size: .85rem;
+            cursor: pointer;
+            display: flex;
+            gap: 1rem;
+            font-weight: 600;
+            padding: 1rem;
+        }
+        
+        
+        
+        .menu-cart.active{
+            background-color: rgb(229, 231, 233);
+            color:rgb(22, 160, 133);;
+        }
+        
+        .articles{
+            background-color: white;
+            color:rgb(22, 160, 133);
+            padding: .15rem .25rem;
+            border-radius: 0.25rem;
+        
+        }
+        
+        .footer-text{
+           color: rgb(212, 212, 212);
+           font-size: .80rem;
+        }
+        
+        main {
+            
+            display: flex;
+            gap: 30px;
+            background-color: rgb(229, 231, 233);
+            margin: 1rem;
+            margin-left: 0;
+            border-radius: 2rem;
+            padding: 3rem;
+        }
+        
+        .name-categorie {
+            width: 100px;
+            height: 100px;
+            color: rgb(22, 160, 133);
+            margin-bottom: 2rem;
+        
+        }
+        
+        .container-image{
+            flex: 1;
+        }
+
+        .container-info{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price {
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgb(0, 0, 0);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .price span {
+            font-size: 24px;
+            font-weight: 300;
+        }
+
+        .container-cart-add{
+            padding: 30px 0;
+            display: flex;
+            gap: 20px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid ;
+        }
+
+        .container-cant{
+            position: relative;
+        }
+
+        .input-cant{
+            background-color: rgb(219, 219, 219);
+            border: none;
+            padding: 10px;
+            width: 60px;
+            height: 100%;
+            color:black;
+            font-weight: 500;
+        }
+
+        .input-cant:focus{
+            outline: none;
+        }
+
+        .input-cant::-webkit-inner-spin-button,               /*Saco las flechas del input*/
+        .input-cant::-webkit-outer-spin-button{
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+
+
+
+        .btn-add-cart{
+            border: none;
+            padding: 10px;
+            color: white;
+            background-color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-increment {
+            display: flex;
+            position: absolute;
+            flex-direction: column;
+            top: 7px;
+            right: 7px;
+            font-size: 11px;
+            cursor: pointer;
+            color: black;
+        }
+
+        .btn-add-cart:hover{
+            color: rgb(88, 83, 83);
+        }
+
+        .bi-chevron-up{
+            color: rgb(0, 0, 0);
+        }
+
+        .bi-chevron-down{
+            color: rgb(0, 0, 0);
+        }
+       
+        .description{
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid rgb(189, 189, 189);
+            padding: 10px 0;
+        }
+
+        .text-description{
+            font-size: 17px;
+            color: black;
+            margin-top: 4px;
+            line-height: 20px;
+        }
+
+        </style>
+
 </head>
 <body> 
     <div class="main-container">
