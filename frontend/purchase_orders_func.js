@@ -64,7 +64,7 @@ function parse_order_data(data)
     const order_head = document.createElement("section");
     order_head.setAttribute("class", "order-head");
 
-    const text_labels = {
+    const text_labels_head = {
         "order_id" : "N° de orden",
         "date" : "Fecha",
         "client_name" : "Nombre",
@@ -75,11 +75,11 @@ function parse_order_data(data)
         "products" : "Productos",
         "total_price" : "Total"
     }
-    const dict_keys = Object.keys(text_labels);
-    console.log(dict_keys);
-    for(let index = 0; index < dict_keys.length; index++)
+    const order_head_keys = Object.keys(text_labels_head);
+    console.log(order_head_keys);
+    for(let index = 0; index < order_head_keys.length; index++)
     {
-        if(dict_keys[index] != "products" && dict_keys[index] != "total_price")
+        if(order_head_keys[index] != "products" && order_head_keys[index] != "total_price")
         {
             console.log(index);
             const item = document.createElement("li");
@@ -87,18 +87,74 @@ function parse_order_data(data)
 
             const item_key = document.createElement("p");
             item_key.setAttribute("class", "order-head-item-key");
-            item_key.innerText = text_labels[dict_keys[index]];
+            item_key.innerText = text_labels_head[order_head_keys[index]];
             item.append(item_key);
             
             const item_value = document.createElement("p");
             item_value.setAttribute("class", "order-head-item-value");
-            item_value.innerText = data[dict_keys[index]];
+            item_value.innerText = data[order_head_keys[index]];
             item.append(item_value);
             
             order_head.append(item);
         }
     }
     order_container.append(order_head);
+
+    const display_border = document.createElement("p");
+    display_border.setAttribute("class", "display-border");
+    order_container.append(display_border);
+
+    const order_products = document.createElement("section");
+    order_products.setAttribute("class", "order-products");
+
+    text_labels_products = {
+        "name" : "Nombre",
+        "qty" : "Cantidad",
+        "unit_price" : "Precio unitario",
+        "subtotal" : "Subtotal"
+    }
+
+    const order_products_keys = Object.keys(text_labels_products);
+    console.log(order_products_keys);
+
+
+
+    
+    for(let index = 0; index < order_products_keys.length; index++)
+    {
+        const item = document.createElement("li");
+        item.setAttribute("class", "order-head-item");
+
+        const item_key = document.createElement("p");
+        item_key.setAttribute("class", "order-head-item-key");
+        item_key.innerText = text_labels_products[order_products_keys[index]];
+
+        item.append(item_key);
+
+        order_products.append(item);
+        order_products.style.gridTemplateRows = "repeat(1, 3rem)";
+    }
+    data["products"].forEach(product => {
+        for(let index = 0; index < order_products_keys.length; index++)
+            {
+                console.log(index);
+        
+                const item = document.createElement("li");
+                item.setAttribute("class", "order-head-item");
+        
+                const item_value = document.createElement("p");
+                item_value.setAttribute("class", "order-head-item-value");
+                item_value.innerText = product[order_products_keys[index]];
+        
+                item.append(item_value);
+                
+                order_products.append(item);
+                order_products.style.gridTemplateRows = "repeat(" + (index + 1) + ", 3rem)";
+            }
+    });
+
+    order_container.append(order_products);
+
     main_container.append(order_container);
 }
 

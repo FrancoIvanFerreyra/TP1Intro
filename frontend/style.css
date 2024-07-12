@@ -271,8 +271,11 @@ main {
 /*Purchase order display*/
 
 .order-container{
+    display: grid;
+    grid-template-rows: 0fr .5rem 0fr;
+    gap: .7rem;
     margin-top: 2rem;
-    background-color: rgb(22, 160, 133);
+    background-color: #4b6cb7;
     border-radius: 10px;
     padding: 1.3rem;
 }
@@ -281,6 +284,9 @@ main {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 2rem;
+    border-radius: 10px;
+    background-color: rgb(22, 160, 133);
+    padding: .5rem 1rem .1rem 1rem;
 }
 
 .order-head-item{
@@ -299,6 +305,21 @@ main {
 .order-head-item-key, .order-head-item-value{
     align-content: center;
     padding-bottom: .3rem;
+}
+
+.display-border{
+    display: block;
+    border-radius: inherit;
+    background-color: white;
+}
+
+.order-products{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    border-radius: 10px;
+    background-color: rgb(22, 160, 133);
+    padding: 1.25rem 1rem .1rem 1rem;
 }
 
 
