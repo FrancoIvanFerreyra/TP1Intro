@@ -56,7 +56,90 @@
 
         </main>
 </div>
-  
+<script>
+
+    function response_recived(response){
+        return response.json();
+    }
+
+
+    function handle_error(error){
+        console.log(error)
+    }
+
+    function parse_data(data){
+
+        const title = document.getElementById("main-title");
+        title.innerText = data.name
+        
+
+        const product = document.getElementById("products-container")
+        
+        const div = document.createElement("div")
+        
+        div.setAttribute("class","product");
+        div.innerHTML  = `
+    <main>
+    
+
+	    <div class="container-image">
+			    <img src="https://imgs.search.brave.com/tID9Fid4L6QxANPVhbpkZPATIr4Wg19v4qmVfoLUWzc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuZnJlZWltYWdl/cy5jb20vaW1hZ2Vz/L2xhcmdlLXByZXZp/ZXdzLzlhYi9wYXBl/ci1jaGFpbi12LTIt/MTMxNDA2Ny5qcGc_/Zm10">
+	    </div>
+
+	    <div class="container-info">
+			<div class="price">
+				<span>$${data.price}</span>
+			</div>
+	
+
+	        <div class="container-cart-add">
+		        <div class="container-cant">
+			        <input type="number" placeholder="1" min="1" max="3" value="1" class="input-cant">
+
+			        <div class="btn-increment">
+				        <i class="bi bi-chevron-up"></i>
+				        <i class="bi bi-chevron-down"></i>
+			        </div>
+		        </div>
+		        <button class="btn-add-cart"><i class="bi bi-basket3-fill"></i>Agregar</button>
+	        </div>
+
+	        <div class="description">
+		        <div class="title-description">
+			        <h4>Descripcion :</h4>
+		        </div>
+		        <div class="text-description">
+			        <p>${data.description}</p>
+		        </div>
+	        </div>
+        </div>
+
+    </main>
+                
+        `
+                product.append(div)
+
+    }
+
+
+    function back(){
+        window.location.href = "/"
+    }
+
+
+    const params = new URLSearchParams(window.location.search)
+    const id = params.get("id")
+
+    console.log(params)
+    console.log(id)
+
+
+
+    fetch(`http://localhost:5000/products/${id}`)
+    .then(response_recived)
+    .then(parse_data)
+    .catch(handle_error)
+    </script>
 </body>
 
 </html>
