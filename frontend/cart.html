@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Css/style.css">
 </head>
 <body> 
     <div class="main-container">
@@ -16,7 +16,7 @@
             <nav>
                 <ul class="menu-nav">
                     <li>
-                        <a class="menu-cart button-back" onclick="translate_shopping()"><i class="bi bi-cart-plus"></i></i>Continuar Comprando</a>  
+                        <a class="menu-cart button-back" href="index.html"><i class="bi bi-cart-plus"></i></i>Continuar Comprando</a>  
                     </li>
                     <li>
                      <a  class="menu-cart active"><i class="bi bi-cart4"></i></i>Carrito</a>
@@ -31,35 +31,32 @@
             <h2 class="name-categorie">Carrito</h2>
             <div class="container-cart">
 
-                <p class="cart-void">Vacio</p>
+                <p class="cart-void" id="empty-cart">Vacio</p>
 
-                <div class="products-cart disabled">
+                <div class="cart-products disabled" id="cart-products">
 
-
-                    <div class="product-cart">
-                    </div>
-    
                 </div>
 
-                <div class="cart-actions disabled">
+                <div class="cart-actions disabled" id="actions-cart">
                     <div class="cart-actions-left">
-                        <button class="cart-actions-empty">Vaciar</button>
+                        <button class="cart-actions-empty" id="cart-actions-empty">Vaciar</button>
                     </div>
                     <div class="cart-actions-right">
                         <div class="cart-actions-total">
                             <p>Total:</p>
                             <p id="total-price"></p>
                         </div>
-                        <button class="cart-actions-buy">Comprar</button>
+                        <button class="cart-actions-buy" id="cart-actions-buy">Comprar</button>
                     </div> 
                 </div>
 
-                <p class="bought disabled">!Gracias por tu Compra!<i class="bi bi-bag-heart"></i></p>
+                <p  id="cart-purchase" class="bought disabled">!Gracias por tu Compra!<i class="bi bi-bag-heart"></i></p>
 
             </div>
         
         </main>
     </div>
-    <script src="functions.js"></script>
+    <script src="Js/cart.js"></script>
+
 </body>
 </html>
