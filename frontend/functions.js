@@ -27,6 +27,16 @@ function send_form(event){
         .catch(handle_error)
 }
 
+function handle_response(data){
+    console.log(data)
+    console.log(typeof data)
+    if(data == "Client saved correctly"){
+        alert("¡La compra se ha realizado con éxito!")
+        window.location.href = '/'
+    }else{
+        alert("Error: la compra ha fallado.")
+    }
+}
 
 function buttons_categorie(category_list){
     
