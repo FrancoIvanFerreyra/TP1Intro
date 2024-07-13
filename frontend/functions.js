@@ -1,4 +1,31 @@
+function send_form(event){
+    event.preventDefault()
+    
+    const Data = new FormData(event.target)
 
+    const name = Data.get("name")
+    const surname = Data.get("surname")
+    const email = Data.get("email")
+    const phone_number = Data.get("phone_number")
+    //const payment_method = Data.get("payment_method")
+
+    fetch("http://localhost:5000/clients", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name: name,
+            surname: surname,
+            email: email,
+            phone_number: phone_number,
+            //payment_method: payment_method,
+        })
+    })
+        .then((response) => response.json())
+        .then(handle_response)
+        .catch(handle_error)
+}
 
 
 function buttons_categorie(category_list){
@@ -32,7 +59,7 @@ function buttons_categorie(category_list){
 }
 
 
-function  load_products(id){   
+function load_products(id){   
   
     const title = document.getElementById("main-title");
     title.innerText = category_list[id-1].name;
@@ -71,7 +98,7 @@ function  load_products(id){
 //-----------------------Funcion para los errores ----------------------------------------------------------------
 
 function handle_error(){
-    return "error";
+    return "ERROR";
 }
 
 //----------------------------------------------------------------------------------------------------------------
