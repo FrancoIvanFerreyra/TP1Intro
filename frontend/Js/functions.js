@@ -16,19 +16,23 @@ function buttons_category(category_list){
      `  
     
         category.append(element_list);
-    
-        const buttonscategory = document.querySelectorAll(".category-button");
-        buttonscategory.forEach(boton => {
-        boton.addEventListener("click", (e) => {
-        
-        buttonscategory.forEach(boton => boton.classList.remove("active"))
-
-        e.currentTarget.classList.add("active");
-        } )
-
-    })
-    
+        button_selection();
     }
+    
+}
+
+export function button_selection()
+{
+    const buttonscategory = document.querySelectorAll(".category-button");
+    buttonscategory.forEach(boton => {
+        boton.addEventListener("click", (e) => {
+            console.log("press");
+            buttonscategory.forEach(boton => boton.classList.remove("active"))
+            e.currentTarget.classList.add("active");
+                } 
+            )
+        }
+    )
 }
 
 
@@ -84,18 +88,23 @@ function product_page(coup){
 
 
 //-------------------------------Funciones para conectar el back---------------------------------------------------
-      fetch("http://localhost:5000/categories")
-        .then(response => response.json())
-        .then(
-            data => {
-                category_list = data;
-                buttons_category(category_list);
-                
-            }
-        )
-        .catch(handle_error)
+console.log(window.location.href);    
+if(window.location.href != "http://localhost:8000/admin.html")
+        {
+            fetch("http://localhost:5000/categories")
+            .then(response => response.json())
+            .then(
+                data => {
+                    category_list = data;
+                    buttons_category(category_list);
+                    
+                }
+            )
+            .catch(handle_error)        
+        }  
 
 
+        
         function products(coup){
             let id = coup.id
             fetch("http://localhost:5000/products")
