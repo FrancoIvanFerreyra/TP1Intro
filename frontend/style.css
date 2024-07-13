@@ -176,9 +176,10 @@ main {
 }
 
 .container-cart{
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
+    align-items: center;
 }
 
 .cart-void{
@@ -188,6 +189,9 @@ main {
 
 .subtitle{
     color: rgb(22, 160, 133);
+    grid-column: 1 / 3;
+    text-align: right;
+    font-size: larger;
 }
 
 .cart-products{
@@ -269,6 +273,23 @@ main {
 
 /*SHOPPING PAGE*/
 /*Purchase order display*/
+
+.searcher{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;   
+}
+
+.validate{
+    font-size: x-large;
+    text-align: start;
+    color: black;
+}
+
+.search-button{
+    border-radius: 10px;
+    font-size: larger;
+}
 
 .order-container, .error-container{
     display: grid;

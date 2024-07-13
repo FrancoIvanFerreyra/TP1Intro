@@ -30,15 +30,12 @@
         <main id="main">
             <h2 class="name-category">Compras</h2>
             <div class="container-cart">
-        
                 <p class="subtitle">Historial de compras (ingrese su codigo):</p>
+                <div class="searcher">
+                    <input type="number" min="0" max="999999" id="order_id" class="validate">
+                    <button class="search-button" onclick=handle_data()>BUSCAR</button>
+                </div>
 
-               <div class="container-searcher">
-                    <div class="searcher">
-                        <input type="number" min="0" max="999999" id="order_id" class="validate">
-                        <button onclick=handle_data()>Buscar</button>
-                    </div>
-               </div>
 
             </div>
         
