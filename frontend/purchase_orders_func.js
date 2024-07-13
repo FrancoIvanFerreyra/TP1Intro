@@ -69,7 +69,7 @@ function show_error_message()
 
     const error_text = document.createElement("p");
     error_text.setAttribute("class", "error-text");
-    error_text.innerHTML = "La order de compra ingresada no existe"
+    error_text.innerHTML = "La orden de compra ingresada no existe"
 
     const error_img = document.createElement("img");
     error_img.setAttribute("class", "product-img error-img");
@@ -199,7 +199,7 @@ function parse_order_data(data)
                 item.setAttribute("src", "http://localhost:5000/images/" + product["image"]);
                 item.setAttribute("class", "product-img");
             }
-            
+
             item.innerText = product[order_products_keys[index]];
             product_container.append(item);
         }
