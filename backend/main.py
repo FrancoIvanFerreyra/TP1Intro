@@ -230,7 +230,7 @@ def add_new_client():
        return jsonify(f"Error: {error}"), 500
 
     #Result is OK
-    return jsonify("Client saved correctly"), 200
+    return jsonify("Client saved correctly", new_client.id), 200
 
 @app.route("/purchase_orders", methods = ["POST"])
 def add_new_purchase_order():
@@ -258,7 +258,7 @@ def add_new_purchase_order():
        return jsonify(f"Error: {error}"), 500
 
     #Result is OK
-    return jsonify("Order saved correctly"), 200
+    return jsonify("Order saved correctly", new_purchase_order.id), 200
 
 @app.route("/purchase_orders/<order_id>", methods = ["POST"])
 def add_purchase_order_products(order_id):
