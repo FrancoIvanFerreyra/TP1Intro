@@ -29,7 +29,7 @@ a {
 
 /*background-color: rgb(22, 160, 133); color alternativo*/
 
-asside {
+aside {
     padding: 2rem;
     padding-right: 0;
     color: rgb(255, 255, 255);
@@ -60,7 +60,7 @@ asside {
     gap: .5rem
 }
 
-.menu-categorie{
+.menu-category{
     background-color: transparent;
     border: 0;
     color:white;
@@ -73,7 +73,7 @@ asside {
     width: 100%;
 }
 
-.menu-categorie.active{
+.menu-category.active{
     background-color: rgb(229, 231, 233);
     color:rgb(22, 160, 133);;
 }
@@ -119,14 +119,14 @@ main {
     padding: 3rem;
 }
 
-.name-categorie {
+.name-category {
    color: rgb(22, 160, 133);
     margin-bottom: 2rem;
 
 }
 
 
-.container_main_products{
+.main-container-products{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
