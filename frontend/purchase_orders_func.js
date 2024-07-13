@@ -199,8 +199,14 @@ function parse_order_data(data)
                 item.setAttribute("src", "http://localhost:5000/images/" + product["image"]);
                 item.setAttribute("class", "product-img");
             }
-
-            item.innerText = product[order_products_keys[index]];
+            if(order_products_keys[index] == "subtotal" || order_products_keys[index] == "unit_price")
+            {
+                item.innerText = "$ " + product[order_products_keys[index]];
+            }
+            else
+            {
+                item.innerText = product[order_products_keys[index]];
+            }
             product_container.append(item);
         }
         order_products.append(product_container);
@@ -219,7 +225,7 @@ function parse_order_data(data)
 
     price_data = document.createElement("p");
     price_data.setAttribute("class", "total-price-data");
-    price_data.innerHTML = data["total_price"];
+    price_data.innerHTML = "$ " + data["total_price"];
     total_price_container.append(price_data);
 
     order_products.append(total_price_container);
