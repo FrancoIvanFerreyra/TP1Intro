@@ -136,7 +136,7 @@ def upload_file(category):
             extension = get_file_extension(file.filename)
             filename = secure_filename(request.form.get("name"))
             file.save(os.path.join(f"images/{category}", f"{filename}.{extension}"))
-            return jsonify({"success":"Image uploaded correctly", "image": f"{category}/{filename}"}), 200
+            return jsonify({"success":"Image uploaded correctly", "image": f"{category}/{filename}.{extension}"}), 200
 
 @app.route("/categories", methods=["GET"])
 def get_all_categories():
