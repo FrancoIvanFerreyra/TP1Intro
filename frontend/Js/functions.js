@@ -21,7 +21,7 @@ function buttons_category(category_list){
     
 }
 
-export function button_selection()
+function button_selection()
 {
     const buttonscategory = document.querySelectorAll(".category-button");
     buttonscategory.forEach(boton => {
@@ -34,6 +34,7 @@ export function button_selection()
         }
     )
 }
+
 
 
 function  load_products(id){   
@@ -97,6 +98,7 @@ if(window.location.href != "http://localhost:8000/admin.html")
                 data => {
                     category_list = data;
                     buttons_category(category_list);
+                    console.log("categoriasssss");
                     
                 }
             )
