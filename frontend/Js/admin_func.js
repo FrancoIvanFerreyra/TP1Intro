@@ -17,9 +17,43 @@ function create_product_form()
     form_container.setAttribute("class", "form-container");
 
     //Image field
-    const form_img_container = document.createElement("section");
-    form_img_container.setAttribute("class", "form-img-container");
-    form_container.append(form_img_container);
+    //const form_img_container = document.createElement("section");
+    //form_img_container.setAttribute("class", "form-img-container");
+
+    const img_uploaded = document.createElement("img");
+    img_uploaded.setAttribute("class", "img-uploaded");
+    img_uploaded.setAttribute("src", "http://localhost:5000/images/default/default.jpg");
+    form_container.append(img_uploaded);
+
+    const img_label = document.createElement("label");
+    img_label.setAttribute("for", "fileInput");
+    img_label.setAttribute("class", "custom-file-upload img-upload-submit");
+    img_label.innerText = "Seleccionar imagen";
+
+    form_container.append(img_label);
+
+    const img_upload = document.createElement("input");
+    img_upload.setAttribute("id", "fileInput");
+    img_upload.setAttribute("type", "file");
+    img_upload.setAttribute("accept", ".png, .jpg");
+
+    img_upload.addEventListener("change", function(event)
+    {
+        var file = event.target.files[0];
+        //console.log(file);
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            img_uploaded.setAttribute("src", e.target.result);
+        };
+
+        reader.readAsDataURL(file);
+
+    })
+    form_container.append(img_upload);
+
+    //form_container.append(form_img_container);
 
     const form_data_container = document.createElement("section");
     form_data_container.setAttribute("class", "form-data-container");
