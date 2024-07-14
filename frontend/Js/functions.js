@@ -54,6 +54,7 @@ function  load_products(id){
         div.setAttribute("class","product");
         div.innerHTML = `
             
+                <img  class="image-product" src="http://localhost:5000/images/${data_prod[index].image}">
             <div class="description">
                 <h3 class="name-product">${data_prod[index].name}</h3>
                 <p class="product-price">$${data_prod[index].price}</p>

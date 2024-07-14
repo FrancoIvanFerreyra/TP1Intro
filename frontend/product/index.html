@@ -26,6 +26,11 @@
             text-decoration: none;
         }
 
+        .size {
+            width: 480px;
+            height: 270px;
+        }
+        
         img {
             max-width: 100%;
         }
@@ -124,6 +129,8 @@
             margin-left: -0.5rem;
             border-radius: 2rem;
             padding: 3rem;
+            padding-bottom: 1rem;
+           
         }
         
         .name-categorie {
@@ -134,6 +141,28 @@
         
         }
         
+        .container_main_products{
+            border-radius: 1rem;
+            border-bottom: 1px solid rgb(182, 182, 182);
+        }
+        
+        .container-title{
+            padding: 25px;
+            padding-top: 25px;
+            text-align: center;
+            background-color: rgb(219, 219, 219);
+            color: #182848;
+            
+            
+        }
+
+        .main-product {
+            display: flex;
+            align-items: center;
+            margin-left: 2rem;
+            border-radius: 2rem solid;
+        }
+
         .container-image{
             flex: 1.5;
         }
@@ -188,6 +217,7 @@
         -webkit-appearance: none;
         margin: 0;
         }
+        input[type=number] {-moz-appearance:textfield; }
 
 
         .add-cart{
@@ -307,7 +337,7 @@
         <main class="main-product">
 
 	    <div class="container-image">
-			    <img class="size" src="https://media.tycsports.com/files/2022/01/07/378531/armando-mendez-el-hulk-uruguayo.jpg">
+			    <img class="size" src="http://localhost:5000/images/${data.image}">
 	    </div>
 
 	    <div class="container-info">
@@ -342,13 +372,110 @@
                 
         `
         product.append(div)
-
+        countAdd()
     }
 
+
+
+    let productsCart;
+
+    const productInCartLC = JSON.parse(localStorage.getItem("product-cart")) //Con esto analizo si en el navegador hay productos almacenado
+
+
+
+    if(productInCartLC){  //SI llega  haber algo en el carrito  lo guardo en la variable de prodcutsCart que luego utilizo para seguir añadiendo productos
+        productsCart = productInCartLC;
+        count_number(); //voy actualizando el numero
+    }else{              //SI NO a la variable productsCart la inicio como una lista vacia y luego le meto los productod que seleccione
+        productsCart = [];
+    }
+
+
+
+    function countAdd() {
+        const btnInc = document.getElementById("increment")
+        const btnDec = document.querySelector("#decrement");
+
+        const quantity = document.querySelector(".input-cant");
+
+        let valueByDefault = parseInt(quantity.value);
+
+        console.log(parseInt(quantity.value))
+
+        btnInc.addEventListener("click", () => {
+            if(valueByDefault === 3){
+                return;
+            }else {
+            valueByDefault += 1;
+            quantity.value = valueByDefault;
+            }
+        })
+
+
+        btnDec.addEventListener("click", () => {
+            if(valueByDefault === 1){
+                return;
+            }else {
+                valueByDefault -=1;
+                quantity.value = valueByDefault;
+            }
+         
+        })
+    }
+
+
+
+
+    function add_cart(e){
+        
+        
+        const quantity = document.querySelector(".input-cant");   //Agarro la clase del input
+        
+        let quantValue = parseInt(quantity.value);                //Obtengo el valor del inout en se momento
+
+        let productAdd;
+
+        productAdd = data;
+
+        if(productsCart.some(product => product.id == id)){   //Busca una coincidencia y si la encuentra tira True;
+            
+            for(let index = 0; index<productsCart.length; index++){
+            if(productsCart[index].id == id){
+                productsCart[index].cantidad = productsCart[index].cantidad + quantValue;
+            }
+        }
+        }else{
+            productAdd.cantidad = quantValue;
+            productsCart.push(productAdd)
+        }
+     
+        count_number();
+
+        //guardo los elementos del array en el localstorage asi lo puedo usar en la pagina del carrito.
+
+        localStorage.setItem("product-cart", JSON.stringify(productsCart))
+
+    }
+    
+    function count_number(){
+    let number = 0 ;
+    for(let i = 0;i<productsCart.length;i++){
+        number = productsCart[i].cantidad + number;
+    } 
+    const articles = document.getElementById("number");
+    articles.innerText = number
+}
 
     function back(){
         window.location.href = "/"
     }
+    function translate_shopping(){
+        window.location.href = "/shopping.html"
+    }
+    function translate_cart(){
+        window.location.href = "/cart.html"
+    }
+   
 
 
     const params = new URLSearchParams(window.location.search)

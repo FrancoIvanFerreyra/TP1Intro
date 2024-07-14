@@ -36,6 +36,8 @@ function loadCartProducts(){
 
 
             div.innerHTML = `
+                            <img class="product-img-cart" src="http://localhost:5000/images/${productInCart[index].image}">
+                            
                             <div class="cart-name-product">
                                 <small>Articulo:</small>
                                 <h3>${productInCart[index].name}</h3>
