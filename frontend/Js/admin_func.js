@@ -27,7 +27,13 @@ function add_product()
 const container = document.getElementById("data-container");
 
 function create_product_form()
-{
+{   
+    const previous_form = document.querySelector(".form-container");
+    if(previous_form != null)
+    {
+        previous_form.remove();
+    }
+
     const form_container = document.createElement("form");
     form_container.setAttribute("class", "form-container");
 
