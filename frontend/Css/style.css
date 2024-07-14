@@ -344,6 +344,14 @@ input[type="file"] {
 
 .form-actions-container{
     padding: 1rem;
+    grid-column: 3 / 5;
+    display: grid;
+    align-content: center;
+}
+
+.form-submit{
+    justify-self: end;
+    margin-right: 1.5rem;
 }
 
 .form-input-field-normal{

@@ -116,8 +116,20 @@ function create_product_form()
 
     form_container.append(form_data_container);
 
+    //Actions(confirm editing, adding)
     const form_actions_container = document.createElement("section");
     form_actions_container.setAttribute("class", "form-actions-container");
+
+    const submit_button = document.createElement("button");
+    submit_button.setAttribute("class", "custom-file-upload img-upload-submit form-submit");
+    submit_button.innerText = "ENVIAR";
+
+    submit_button.addEventListener("click", function(event)
+    {
+        event.preventDefault()
+        console.log("Recibido");
+    })
+    form_actions_container.append(submit_button);
     form_container.append(form_actions_container);
 
 
