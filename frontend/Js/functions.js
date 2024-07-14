@@ -26,7 +26,8 @@ function send_form(event){
 }
 
 function handle_response(data, event){
-    if(data[0] == "Client saved correctly"){
+    console.log(data[0])
+    if((data[0] == "Client saved correctly") || (data[0] == "Client already exists")){
         alert("¡La compra se ha realizado con éxito!")
         window.location.href = '/'
 
@@ -58,7 +59,7 @@ function add_purchase_order(client_id, event){
 }
 
 function handle_response_purchase_order(data){
-    console.log(data)
+    console.log(data[0])
 }
 
 function buttons_categorie(category_list){
