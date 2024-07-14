@@ -1,4 +1,4 @@
-
+let btn_add = document.querySelectorAll(".add-cart")
 
 
 function buttons_category(category_list){
@@ -32,12 +32,14 @@ function buttons_category(category_list){
 }
 
 
+
 function  load_products(id){   
   
     const title = document.getElementById("main-title");
     title.innerText = category_list[id-1].name;
    
     const products = document.getElementById("products-container");
+    
 
     products.innerHTML = ""
     
@@ -48,12 +50,12 @@ function  load_products(id){
         if(id == nombre){
         console.log(nombre)
         const div = document.createElement("div");  //creo un div por producto
-
+            //http://localhost:5000/images/${data_prod[index].image}
         div.setAttribute("class","product");
         div.innerHTML = `
             
+                <img  class="image-product" src="http://localhost:5000/images/${data_prod[index].image}">
             <div class="description">
-                <img  class="image-product" src="${data_prod[index].image}">
                 <h3 class="name-product">${data_prod[index].name}</h3>
                 <p class="product-price">$${data_prod[index].price}</p>
                 <button class="add-cart" id="${data_prod[index].id}">Agregar al carrito</button>
@@ -66,6 +68,8 @@ function  load_products(id){
 
         }
     }
+
+    refresh_btn();
 }
 
 //-----------------------Funcion para los errores ----------------------------------------------------------------
@@ -75,6 +79,83 @@ function handle_error(){
 }
 
 //----------------------------------------------------------------------------------------------------------------
+
+
+
+
+function refresh_btn(){
+    btn_add = document.querySelectorAll(".add-cart")
+
+    btn_add.forEach(btn => {
+        btn.addEventListener("click", add_cart)
+    })
+}
+
+
+
+
+
+
+let productsCart;
+
+const productInCartLC = JSON.parse(localStorage.getItem("product-cart")) //Con esto analizo si en el navegador hay productos almacenado
+
+
+
+if(productInCartLC){  //SI llega  haber algo en el carrito  lo guardo en la variable de prodcutsCart que luego utilizo para seguir añadiendo productos
+    productsCart = productInCartLC;
+    count_number(); //voy actualizando el numero
+}else{              //SI NO a la variable productsCart la inicio como una lista vacia y luego le meto los productod que seleccione
+    productsCart = [];
+}
+
+
+
+
+
+
+function add_cart(e){
+    const id = e.currentTarget.id
+  
+    let productAdd;
+
+    for(let i=0;i<data_prod.length;i++){   //añado  a la variable productAdd el json del producto id x si coincide con la del id del boton apreatdo.
+        if(data_prod[i].id == id){
+            productAdd = data_prod[i];
+        }
+    }
+    
+    if(productsCart.some(product => product.id == id)){   //Busca una coincidencia y si la encuentra tira True;
+        for(let index = 0; index<productsCart.length; index++){
+            if(productsCart[index].id == id){
+                productsCart[index].cantidad ++;
+            }
+        }
+    }else{
+        productAdd.cantidad = 1;
+        productsCart.push(productAdd)
+    }
+     
+        count_number();
+
+        //guardo los elementos del array en el localstorage asi lo puedo usar en la pagina del carrito.
+
+        localStorage.setItem("product-cart", JSON.stringify(productsCart))
+
+
+    }
+
+
+
+function count_number(){
+    let number = 0 ;
+    for(let i = 0;i<productsCart.length;i++){
+        number = productsCart[i].cantidad + number;
+    } 
+    const articles = document.getElementById("number");
+    articles.innerText = number
+}
+
 
 
 function product_page(coup){
