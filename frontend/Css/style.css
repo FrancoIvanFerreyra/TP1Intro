@@ -193,9 +193,10 @@ main {
 }
 
 .container-cart{
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
+    align-items: center;
 }
 
 .cart-void{
@@ -205,6 +206,9 @@ main {
 
 .subtitle{
     color: rgb(22, 160, 133);
+    grid-column: 1 / 3;
+    text-align: right;
+    font-size: larger;
 }
 
 .cart-products{
@@ -284,6 +288,113 @@ main {
     cursor: pointer;
 }
 
+/*SHOPPING PAGE*/
+/*Purchase order display*/
+
+.searcher{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;   
+}
+
+.validate{
+    font-size: x-large;
+    text-align: start;
+    color: black;
+}
+
+.search-button{
+    border-radius: 10px;
+    font-size: larger;
+}
+
+.order-container, .error-container{
+    display: grid;
+    grid-template-rows: 0fr .5rem 0fr;
+    gap: .7rem;
+    margin-top: 2rem;
+    background-color: #4b6cb7;
+    border-radius: 10px;
+    padding: 1.3rem;
+}
+.order-head
+{
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1rem;
+    border-radius: 10px;
+    background-color: rgb(22, 160, 133);
+    padding: 1rem;
+}
+
+.order-head-item{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 2fr 1fr 1fr;
+    list-style: none;
+    text-align: center;
+    align-content: center;
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.display-border{
+    display: block;
+    border-radius: inherit;
+    background-color: white;
+}
+
+.order-products{
+    display: grid;
+    gap: 1rem;
+    border-radius: 10px;
+    background-color: rgb(22, 160, 133);
+    padding: 1.25rem 1rem 1.25rem 1rem;
+    text-align: center;
+}
+
+.product-container{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    background-color: white;
+    border-radius: 10px;
+    padding: 1rem;
+    align-items: center;
+}
+
+.product-img{
+    margin: auto;
+    width: 60%;
+}
+
+.total-price-title{
+    grid-column: 1 / 5;
+    font-size: xx-large;
+}
+
+.total-price-data{
+    grid-column: 5;
+    font-size: xx-large;
+}
+
+.error-container{
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    width: auto;
+    text-align: center;
+}
+
+.error-text{
+    align-content: end;
+    padding: 2rem 1rem;
+    font-size: xx-large;
+    color: white;
+}
+
+.error-img{
+    padding: 2rem 1rem;
+    max-width: 8rem;
+}
 
 /*Desactivo todos los elementos del carrito solo para diseño
 */
