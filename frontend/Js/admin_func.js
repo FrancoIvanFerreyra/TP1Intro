@@ -21,7 +21,29 @@ add_button.addEventListener("click", add_product);
 
 function add_product()
 {
+    const title = document.getElementById("main-title");
+    title.innerText = "Complete los datos del nuevo producto";
+
+    const product_container = document.querySelector(".main-container-products");
+    if(product_container != null)
+    {
+        product_container.remove();
+    }
+    container.setAttribute("class", "data-container");
+
     create_product_form();
+}
+
+const edit_button = document.getElementById("edit");
+edit_button.addEventListener("click", edit_product);
+
+function edit_product()
+{
+    remove_old_form();
+    fetch("http://localhost:5000/products")
+        .then(response => response.json())
+        .then(data_prod => load_products(data_prod))
+        .catch(e => console.log(e));
 }
 
 const container = document.getElementById("data-container");
@@ -314,4 +336,41 @@ function send_message(message, type)
     order_container.append(error_text);
     order_container.append(error_img);
     main_container.append(order_container);
+}
+
+function  load_products(data_prod){   
+  
+    const title = document.getElementById("main-title");
+    title.innerText = "Seleccione el producto a modificar";
+
+    const main_container = document.getElementById("data-container");
+    main_container.classList.remove("data-container");
+   
+    const products = document.createElement("div");
+    products.setAttribute("class","main-container-products");
+    
+
+    products.innerHTML = ""
+    
+    for(let index = 0; index<data_prod.length;index++){
+      
+        const div = document.createElement("div");  //creo un div por producto
+        div.setAttribute("class","product");
+        div.innerHTML = `
+            
+                <img  class="image-product" src="http://localhost:5000/images/${data_prod[index].image}">
+            <div class="description">
+                <h3 class="name-product">${data_prod[index].name}</h3>
+                <p class="product-price">$${data_prod[index].price}</p>
+                <button class="add-cart" id="${data_prod[index].id}">Agregar al carrito</button>
+                <button class="see-more" id="${data_prod[index].id}" onclick="product_page(this)"><i class="bi bi-eye-fill"></i></button>
+            </div>
+
+         `  ;
+           
+         products.append(div);
+    }
+    main_container.append(products);
+
+    refresh_btn();
 }
