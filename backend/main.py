@@ -206,7 +206,8 @@ def add_new_client():
     #Verifying if already exists in database
     coincidence = Client.query.where(Client.email == _email).first()
     if coincidence:
-      return jsonify("Error, client already exists"), 400
+      if(coincidence.name == _name and coincidence.surname == _surname and coincidence.phone_number == _phone_number):
+        return jsonify("Client already exists", coincidence.id), 200
     
     #Creating client model
     new_client = Client(
