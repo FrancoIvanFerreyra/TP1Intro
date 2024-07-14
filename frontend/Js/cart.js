@@ -36,7 +36,7 @@ function loadCartProducts(){
 
 
             div.innerHTML = `
-                <div class="cart-name-product">
+                            <div class="cart-name-product">
                                 <small>Articulo:</small>
                                 <h3>${productInCart[index].name}</h3>
                            </div>
@@ -56,7 +56,6 @@ function loadCartProducts(){
                                 <p>$${productInCart[index].price * productInCart[index].cantidad}</p>
                            </div>
                            <button class="cart-remove-product" id="${productInCart[index].id}"><i class="bi bi-trash-fill"></i></button>
-                        </div>
             `
             cartProducts.append(div)
         }
@@ -87,7 +86,6 @@ function refresh_btn_remove(){
 
 function removeIncart(e){
     const idBtnProduct = e.currentTarget.id
-    //const index = productInCart.findIndex(product => product.id === idBtnProduct)
     let index;
         
     for(let i = 0; i<productInCart.length;i++){

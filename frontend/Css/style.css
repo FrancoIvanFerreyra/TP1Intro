@@ -125,7 +125,6 @@ main {
 
 }
 
-
 .main-container-products{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -138,7 +137,7 @@ main {
 }
 
 .description{
-    background-color:  #4b6cb7;
+    background-image: radial-gradient(circle, #4b6cb7 10%, #182848 90%);
     color: rgb(255, 255, 255);
     padding: .5rem;
     border-radius: 1rem;
@@ -149,7 +148,7 @@ main {
 }
 
 .name-product{
-    font-size: 1rem;
+    font-size: 1em;
 }
 
 .add-cart{
@@ -165,7 +164,7 @@ main {
 } 
 
 .add-cart:hover{
-    background-color: rgb(0, 0, 0);
+    background-image: radial-gradient(circle, #4b6cb7 10%, #182848 90%);
     color:rgb(255, 255, 255);
 }
 
@@ -180,7 +179,7 @@ main {
 }
 
 .see-more:hover{
-    background-color: rgb(0, 0, 0);
+    background-image: radial-gradient(circle, #4b6cb7 10%, #182848 90%);
     color:rgb(255, 255, 255);
 }
 

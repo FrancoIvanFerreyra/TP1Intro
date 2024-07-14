@@ -25,7 +25,7 @@
         a {
             text-decoration: none;
         }
-        
+
         img {
             max-width: 100%;
         }
@@ -38,7 +38,7 @@
         
         /*background-color: rgb(22, 160, 133); color alternativo*/
         
-        asside {
+        aside {
             padding: 2rem;
             padding-right: 0;
             color: rgb(255, 255, 255);
@@ -60,8 +60,6 @@
             cursor: pointer;
             
         }
-        
-        
         
         .menu-nav {
             display: flex;
@@ -120,12 +118,10 @@
         }
         
         main {
-            
-            display: flex;
             gap: 30px;
             background-color: rgb(229, 231, 233);
-            margin: 1rem;
-            margin-left: 0;
+            margin: 2rem;
+            margin-left: -0.5rem;
             border-radius: 2rem;
             padding: 3rem;
         }
@@ -139,11 +135,11 @@
         }
         
         .container-image{
-            flex: 1;
+            flex: 1.5;
         }
 
         .container-info{
-            flex: 1;
+            flex: 1.5;
             display: flex;
             flex-direction: column;
         }
@@ -187,16 +183,14 @@
             outline: none;
         }
 
-        .input-cant::-webkit-inner-spin-button,               /*Saco las flechas del input*/
-        .input-cant::-webkit-outer-spin-button{
-            -webkit-appearance: none;
-            appearance: none;
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
         }
 
 
-
-
-        .btn-add-cart{
+        .add-cart{
             border: none;
             padding: 10px;
             color: white;
@@ -220,7 +214,7 @@
             color: black;
         }
 
-        .btn-add-cart:hover{
+        .add-cart:hover{
             color: rgb(88, 83, 83);
         }
 
@@ -251,7 +245,7 @@
 </head>
 <body> 
     <div class="main-container">
-        <asside>    
+        <aside>    
             <header>
                 <a href="/"><h1 class="logo">COMPRA PC</h1></a>
             </header>
@@ -261,12 +255,6 @@
                     <li>
                         <button class="menu-categorie category-button" onclick="back()"><i class="bi bi-arrow-90deg-left"></i>Volver</button>
                     </li>
-
-                    
-                    <li>
-                        <button class="menu-categorie category-button active" onclick="translate_home()"><i class="bi bi-house"></i>Home</button>
-                    </li>
-                    
 
                     <li>
                         <button class="menu-categorie category-button" onclick="translate_shopping()"><i class="bi bi-cash-coin"></i>Compras</button>
@@ -279,7 +267,7 @@
                     
                         <li>
                         <a  class="menu-cart category-button" onclick="translate_cart()"><i class="bi bi-cart4"></i>Carrito
-                            <span class="articulos">0</span></a>
+                            <span class="articles" id="number">0</span></a>
                         </li>
                     </ul>
             </nav>
@@ -287,23 +275,15 @@
                 <p class="footer-text">Derechos de Nacho,Franco,Pili ©
                     </p>
             </footer>
-        </asside>
+        </aside>
         <main>
-                <h3 class="name-categorie" id ="main-title"></h3>
-        
-
+             
             <div class="container_main_products" id="products-container"> 
-            
             </div>
 
         </main>
 </div>
 <script>
-
-    function response_recived(response){
-        return response.json();
-    }
-
 
     function handle_error(error){
         console.log(error)
@@ -311,21 +291,23 @@
 
     function parse_data(data){
 
-        const title = document.getElementById("main-title");
-        title.innerText = data.name
-        
+
 
         const product = document.getElementById("products-container")
-        
+
         const div = document.createElement("div")
-        
+        //<img src="http//:localhost:5000/images/${data.image}">
+      
         div.setAttribute("class","product");
         div.innerHTML  = `
-    <main>
-    
+             <div class="container-title">
+                ${data.name}
+            </div>
+            
+        <main class="main-product">
 
 	    <div class="container-image">
-			    <img src="https://imgs.search.brave.com/tID9Fid4L6QxANPVhbpkZPATIr4Wg19v4qmVfoLUWzc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuZnJlZWltYWdl/cy5jb20vaW1hZ2Vz/L2xhcmdlLXByZXZp/ZXdzLzlhYi9wYXBl/ci1jaGFpbi12LTIt/MTMxNDA2Ny5qcGc_/Zm10">
+			    <img class="size" src="https://media.tycsports.com/files/2022/01/07/378531/armando-mendez-el-hulk-uruguayo.jpg">
 	    </div>
 
 	    <div class="container-info">
@@ -339,11 +321,11 @@
 			        <input type="number" placeholder="1" min="1" max="3" value="1" class="input-cant">
 
 			        <div class="btn-increment">
-				        <i class="bi bi-chevron-up"></i>
-				        <i class="bi bi-chevron-down"></i>
+				        <i class="bi bi-chevron-up" id="increment"></i>
+				        <i class="bi bi-chevron-down" id="decrement"></i>
 			        </div>
 		        </div>
-		        <button class="btn-add-cart"><i class="bi bi-basket3-fill"></i>Agregar</button>
+		        <button class="add-cart" id="${data.id}" onclick="add_cart(this)"><i class="bi bi-basket3-fill"></i>Agregar</button>
 	        </div>
 
 	        <div class="description">
@@ -359,7 +341,7 @@
     </main>
                 
         `
-                product.append(div)
+        product.append(div)
 
     }
 
@@ -372,14 +354,12 @@
     const params = new URLSearchParams(window.location.search)
     const id = params.get("id")
 
-    console.log(params)
-    console.log(id)
-
-
-
     fetch(`http://localhost:5000/products/${id}`)
-    .then(response_recived)
-    .then(parse_data)
+    .then(content => content.json())
+    .then(product => {
+        data = product;
+        parse_data(data)
+    })
     .catch(handle_error)
     </script>
 </body>

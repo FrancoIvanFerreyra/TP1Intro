@@ -50,12 +50,11 @@ function  load_products(id){
         if(id == nombre){
         console.log(nombre)
         const div = document.createElement("div");  //creo un div por producto
-
+            //http://localhost:5000/images/${data_prod[index].image}
         div.setAttribute("class","product");
         div.innerHTML = `
             
             <div class="description">
-                <img  class="image-product" src="${data_prod[index].image}">
                 <h3 class="name-product">${data_prod[index].name}</h3>
                 <p class="product-price">$${data_prod[index].price}</p>
                 <button class="add-cart" id="${data_prod[index].id}">Agregar al carrito</button>
