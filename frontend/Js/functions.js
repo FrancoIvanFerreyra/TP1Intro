@@ -60,7 +60,26 @@ function add_purchase_order(client_id, event){
 
 function handle_response_purchase_order(data){
     console.log(data[0])
+    //purchase_order_id = data[1]
+    //fetch(`http://localhost:5000/purchase_orders/${order_id}`, {
+    //    method: "POST",
+    //    headers: {
+    //        "Content-Type": "application/json"
+    //    },
+    //    body: JSON.stringify({
+    //        purchase_order_id: purchase_order_id,
+    //        //product_id: product_id,
+    //        //product_qty: product_qty,
+    //    })
+    //})
+    //    .then((response) => response.json())
+    //    .then(handle_response_purchase_order_products)
+    //    .catch(handle_error)
 }
+
+//function handle_response_purchase_order_products(data){
+//    console.log(data[0])
+//}
 
 function buttons_categorie(category_list){
     
