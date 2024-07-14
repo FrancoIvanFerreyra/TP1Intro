@@ -291,7 +291,7 @@ main {
     font-size: larger;
 }
 
-.order-container, .error-container{
+.order-container, .message-container{
     display: grid;
     grid-template-rows: 0fr .5rem 0fr;
     gap: .7rem;
@@ -360,21 +360,21 @@ main {
     font-size: xx-large;
 }
 
-.error-container{
+.message-container{
     display: grid;
     grid-template-rows: 1fr 1fr;
     width: auto;
     text-align: center;
 }
 
-.error-text{
+.message-text{
     align-content: end;
     padding: 2rem 1rem;
     font-size: xx-large;
     color: white;
 }
 
-.error-img{
+.message-img{
     padding: 2rem 1rem;
     max-width: 8rem;
 }
