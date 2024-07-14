@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from models import db, Product, Category, Client, PurchaseOrder, PurchaseOrder_Product
 from sqlalchemy import func
+from werkzeug.utils import secure_filename
+import os
 
 
 
@@ -108,6 +110,33 @@ def add_new_product():
     #Result is OK
     return jsonify("Product saved correctly"), 200
 
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+    extension = get_file_extension(filename)
+    return '.' in filename and extension in ALLOWED_EXTENSIONS
+
+def get_file_extension(filename):
+   return filename.rsplit('.', 1)[1].lower()
+
+@app.route('/images/<category>', methods=['GET', 'POST'])
+def upload_file(category):
+    print(request)
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            return jsonify("Error: no image recieved"), 200
+        file = request.files['file']
+
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            return jsonify("Error: no image selected"), 200
+        
+        if file and allowed_file(file.filename):
+            extension = get_file_extension(file.filename)
+            filename = secure_filename(request.form.get("name"))
+            file.save(os.path.join(f"images/{category}", f"{filename}.{extension}"))
+            return jsonify("Image uploaded correctly"), 200
 
 @app.route("/categories", methods=["GET"])
 def get_all_categories():
