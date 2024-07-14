@@ -26,14 +26,19 @@ function add_product()
 
 const container = document.getElementById("data-container");
 
-function create_product_form()
-{   
+function remove_old_form()
+{
     const previous_form = document.querySelector(".form-container");
     if(previous_form != null)
     {
         previous_form.remove();
     }
+}
 
+function create_product_form()
+{   
+
+    remove_old_form();
     const form_container = document.createElement("form");
     form_container.setAttribute("class", "form-container");
 
@@ -185,14 +190,7 @@ function create_product_form()
         event.preventDefault();
         const form_data = new FormData(form_container);
         
-        const category_folders = {
-            "1": "perifericos",
-            "2": "gpu",
-            "3": "cpu"
-        }
-
         const category = form_data.get("category");
-        console.log("cat" + category);
         const name = form_data.get("name");
         const description = form_data.get("description");
         const price = form_data.get("price");
@@ -200,40 +198,8 @@ function create_product_form()
         const img_data = new FormData();
         img_data.append("file", uploaded_file);
         img_data.append("name", name);
-        console.log(img_data);
 
-        fetch("http://localhost:5000/images/" + category_folders[category],{
-            method: "POST",
-            body: img_data
-        }
-        )
-        .then(response => response.json())
-        .then(data => {
-
-
-            fetch("http://localhost:5000/products",{
-                method: "POST",
-                headers: {
-                    "Content-Type" : "application/json"
-                },
-                body: JSON.stringify(
-                    {
-                        image: data["image"],
-                        name: name,
-                        category_id: category,
-                        description: description,
-                        price: price
-                    }
-                )
-            }
-            )
-            .then(response => response.json())
-            .then(data => console.log("Resultado:" + data.success))
-            .catch(e => console.log(e))
-    
-        })
-        .catch(e => console.log(e));
-        
+        post_image(category, img_data, name, description, price);
 
     })
     form_actions_container.append(submit_button);
@@ -241,4 +207,111 @@ function create_product_form()
 
 
     container.append(form_container);
+}
+
+function post_image(category, img_data, name, description, price)
+{
+    const category_folders = {
+        "1": "perifericos",
+        "2": "gpu",
+        "3": "cpu"
+    }
+
+    fetch("http://localhost:5000/images/" + category_folders[category],{
+        method: "POST",
+        body: img_data
+    }
+    )
+    .then(response => response.json())
+    .then(data => {
+
+        switch(data)
+        {
+            case "Error: no image recieved":
+                send_message("Error: no se envio ninguna imagen", "error");
+                break;
+            case "Error: no image selected":
+                send_message("Error: no se selecciono ninguna imagen", "error");
+                break;
+            default:
+                post_form(data["image"], name, category, description, price);
+        }
+    })
+    .catch(e => {
+        send_message("Error inesperado", "error");
+        console.log(e)});
+
+}
+
+function post_form(image, name, category, description, price)
+{
+    fetch("http://localhost:5000/products",{
+        method: "POST",
+        headers: {
+            "Content-Type" : "application/json"
+        },
+        body: JSON.stringify(
+            {
+                image: image,
+                name: name,
+                category_id: category,
+                description: description,
+                price: price
+            }
+        )
+    }
+    )
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        switch(data)
+        {
+            case "Error, product already exists":
+                send_message("Error: el producto ingresado ya existe", "error");
+                break;
+            case "Product saved correctly":
+                send_message("Producto guardado correctamente", "confirm");
+                break;
+        }
+    })
+    .catch(e => {
+        send_message("Error inesperado 2", "error");
+        console.log(e)})
+
+
+}
+
+function send_message(message, type)
+{
+
+    remove_old_form();
+    const order_container = document.createElement("article");
+    const main_container = document.querySelector(".data-container");
+    order_container.setAttribute("class", "message-container");
+
+    const error_text = document.createElement("p");
+    error_text.setAttribute("class", "message-text");
+    error_text.innerHTML = message;
+
+    const error_img = document.createElement("img");
+    error_img.setAttribute("class", "product-img message-img");
+
+    switch(type)
+    {
+        case "error":
+            error_img.setAttribute("src", "http://localhost:5000/images/icons/error.png");
+            break;
+        case "confirm":
+            error_img.setAttribute("src", "http://localhost:5000/images/icons/check.png")
+            break;
+        default:
+            error_img.setAttribute("src", "http://localhost:5000/images/icons/error.png")
+            break;
+    }
+
+    
+    
+    order_container.append(error_text);
+    order_container.append(error_img);
+    main_container.append(order_container);
 }
