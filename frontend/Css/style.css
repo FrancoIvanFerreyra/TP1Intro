@@ -335,11 +335,22 @@ input[type="file"] {
     padding: 1rem;
     grid-column: 3 / 5;
     display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 .form-data{
     display: grid;
     gap: .5rem;
     padding: .5rem .1rem;
+}
+
+.form-data-price{
+    grid-column: 2;
+    grid-row: 3;
+}
+
+.form-data-category{
+    grid-column: 1;
+    grid-row: 3;
 }
 
 .form-actions-container{
@@ -364,6 +375,11 @@ input[type="file"] {
     font-size: medium;
 }
 
+/* .form-input-field-category{
+    grid-column: 1;
+    grid-row: 3;
+} */
+
 .form-input-field-price{
     width: 12rem;
     font-size: x-large;
@@ -372,6 +388,10 @@ input[type="file"] {
 .input-pad{
     padding: .3rem;
     color: black;
+}
+
+.wide{
+    grid-column: 1 / 3;
 }
 
 

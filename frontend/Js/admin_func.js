@@ -1,6 +1,21 @@
-import { button_selection } from "./functions.js";
 
 button_selection();
+
+function button_selection()
+{
+    const buttonscategory = document.querySelectorAll(".category-button");
+    buttonscategory.forEach(boton => {
+        boton.addEventListener("click", (e) => {
+            console.log("press");
+            buttonscategory.forEach(boton => boton.classList.remove("active"))
+            e.currentTarget.classList.add("active");
+                } 
+            )
+        }
+    )
+}
+
+
 const add_button = document.getElementById("add");
 add_button.addEventListener("click", add_product);
 
@@ -62,7 +77,7 @@ function create_product_form()
 
     //Name field
     const form_data_name_container = document.createElement("div");
-    form_data_name_container.setAttribute("class", "form-data");
+    form_data_name_container.setAttribute("class", "form-data wide");
 
     const form_data_name_label = document.createElement("label");
     form_data_name_label.setAttribute("for", "_name");
@@ -80,7 +95,7 @@ function create_product_form()
 
     //Description field
     const form_data_description_container = document.createElement("div");
-    form_data_description_container.setAttribute("class", "form-data");
+    form_data_description_container.setAttribute("class", "form-data wide");
 
     const form_data_description_label = document.createElement("label");
     form_data_description_label.setAttribute("for", "_description");
@@ -97,9 +112,41 @@ function create_product_form()
     form_data_description_container.append(form_data_description_input);
     form_data_container.append(form_data_description_container);
 
+     //Category field
+     const form_data_category_container = document.createElement("div");
+     form_data_category_container.setAttribute("class", "form-data form-data-category");
+ 
+     const form_data_category_label = document.createElement("label");
+     form_data_category_label.setAttribute("for", "_category");
+     form_data_category_label.innerText = "Categoria: ";
+     
+     const form_data_category_input = document.createElement("select");
+     form_data_category_input.setAttribute("id", "_category");
+     form_data_category_input.setAttribute("name", "category");
+     form_data_category_input.setAttribute("class", "form-input-field-normal form-input-field-category input-pad");
+
+     fetch("http://localhost:5000/categories")
+        .then(response => response.json())
+        .then(function(data){
+            console.log(data);
+            for(let index = 0; index < data.length; index++)
+            {
+                const option = document.createElement("option");
+                option.setAttribute("value", index + 1);
+                option.innerText = data[index].name;
+                form_data_category_input.append(option);
+            }
+        })
+        .catch(e => console.log(e))
+
+     form_data_category_container.append(form_data_category_label);
+     form_data_category_container.append(form_data_category_input);
+     form_data_container.append(form_data_category_container);
+ 
+ 
     //Price field
     const form_data_price_container = document.createElement("div");
-    form_data_price_container.setAttribute("class", "form-data");
+    form_data_price_container.setAttribute("class", "form-data form-data-price");
 
     const form_data_price_label = document.createElement("label");
     form_data_price_label.setAttribute("for", "_price");
@@ -131,7 +178,15 @@ function create_product_form()
     {
         event.preventDefault();
         const form_data = new FormData(form_container);
- 
+        
+        const category_folders = {
+            "1": "perifericos",
+            "2": "gpu",
+            "3": "cpu"
+        }
+
+        const category = form_data.get("category");
+        console.log("cat" + category);
         const name = form_data.get("name");
         const description = form_data.get("description");
         const price = form_data.get("price");
@@ -141,35 +196,39 @@ function create_product_form()
         img_data.append("name", name);
         console.log(img_data);
 
-        fetch("http://localhost:5000/images/default",{
+        fetch("http://localhost:5000/images/" + category_folders[category],{
             method: "POST",
             body: img_data
         }
         )
         .then(response => response.json())
-        .then(data => console.log("Resultado imagen:" + data.success))
+        .then(data => {
+
+
+            fetch("http://localhost:5000/products",{
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify(
+                    {
+                        image: data["image"],
+                        name: name,
+                        category_id: category,
+                        description: description,
+                        price: price
+                    }
+                )
+            }
+            )
+            .then(response => response.json())
+            .then(data => console.log("Resultado:" + data.success))
+            .catch(e => console.log(e))
+    
+        })
         .catch(e => console.log(e));
         
-        fetch("http://localhost:5000/products",{
-            method: "POST",
-            headers: {
-                "Content-Type" : "application/json"
-            },
-            body: JSON.stringify(
-                {
-                    image: "aaa",
-                    name: name,
-                    description: description,
-                    price: price
-                }
-            )
-        }
-        )
-        .then(response => response.json())
-        .then(data => console.log("Resultado:" + data.success))
-        .catch(e => console.log(e))
 
-        console.log("Recibido");
     })
     form_actions_container.append(submit_button);
     form_container.append(form_actions_container);
