@@ -37,6 +37,7 @@ function create_product_form()
     img_upload.setAttribute("type", "file");
     img_upload.setAttribute("accept", ".png, .jpg");
 
+    var uploaded_file;
     img_upload.addEventListener("change", function(event)
     {
         var file = event.target.files[0];
@@ -49,6 +50,7 @@ function create_product_form()
         };
 
         reader.readAsDataURL(file);
+        uploaded_file = file;
 
     })
     form_container.append(img_upload);
@@ -122,11 +124,37 @@ function create_product_form()
 
     const submit_button = document.createElement("button");
     submit_button.setAttribute("class", "custom-file-upload img-upload-submit form-submit");
+    submit_button.setAttribute("type", "submit");
     submit_button.innerText = "ENVIAR";
 
     submit_button.addEventListener("click", function(event)
     {
-        event.preventDefault()
+        event.preventDefault();
+        const form_data = new FormData(form_container);
+ 
+        const name = form_data.get("name");
+        const description = form_data.get("description");
+        const price = form_data.get("price");
+
+        fetch("http://localhost:5000/products",{
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify(
+                {
+                    image: "aaa",
+                    name: name,
+                    description: description,
+                    price: price
+                }
+            )
+        }
+        )
+        .then(response => response.json())
+        .then(data => console.log("Resultado:" + data.success))
+        .catch(e => console.log(e))
+
         console.log("Recibido");
     })
     form_actions_container.append(submit_button);
