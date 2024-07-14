@@ -136,6 +136,20 @@ function create_product_form()
         const description = form_data.get("description");
         const price = form_data.get("price");
 
+        const img_data = new FormData();
+        img_data.append("file", uploaded_file);
+        img_data.append("name", name);
+        console.log(img_data);
+
+        fetch("http://localhost:5000/images/default",{
+            method: "POST",
+            body: img_data
+        }
+        )
+        .then(response => response.json())
+        .then(data => console.log("Resultado imagen:" + data.success))
+        .catch(e => console.log(e));
+        
         fetch("http://localhost:5000/products",{
             method: "POST",
             headers: {
