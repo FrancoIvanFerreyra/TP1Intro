@@ -41,7 +41,7 @@ function request_order_data(order_id)
     fetch("http://localhost:5000/purchase_orders/" + order_id)
     .then(function(response) {
         
-        const previous_order = document.querySelector(".order-container, .error-container");
+        const previous_order = document.querySelector(".order-container, .message-container");
         if (previous_order != null)
         {
             previous_order.remove();
@@ -65,15 +65,15 @@ function show_error_message()
 {
     const order_container = document.createElement("article");
     const main_container = document.getElementById("main");
-    order_container.setAttribute("class", "error-container");
+    order_container.setAttribute("class", "message-container");
 
     const error_text = document.createElement("p");
-    error_text.setAttribute("class", "error-text");
+    error_text.setAttribute("class", "message-text");
     error_text.innerHTML = "La orden de compra ingresada no existe"
 
     const error_img = document.createElement("img");
-    error_img.setAttribute("class", "product-img error-img");
-    error_img.setAttribute("src", "http://localhost:5000/images/icons/error-icon-25243.png")
+    error_img.setAttribute("class", "product-img message-img");
+    error_img.setAttribute("src", "http://localhost:5000/images/icons/error.png")
 
     
     
