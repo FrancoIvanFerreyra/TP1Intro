@@ -118,25 +118,23 @@ def allowed_file(filename):
 def get_file_extension(filename):
    return filename.rsplit('.', 1)[1].lower()
 
-@app.route('/images/<category>', methods=['GET', 'POST'])
+@app.route('/images/<category>', methods=['POST'])
 def upload_file(category):
-    print(request)
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            return jsonify("Error: no image recieved"), 200
-        file = request.files['file']
+  # check if the post request has the file part
+  if 'file' not in request.files:
+      return jsonify("Error: no image recieved"), 200
+  file = request.files['file']
 
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
-        if file.filename == '':
-            return jsonify("Error: no image selected"), 200
+  # If the user does not select a file, the browser submits an
+  # empty file without a filename.
+  if file.filename == '':
+      return jsonify("Error: no image selected"), 200
         
-        if file and allowed_file(file.filename):
-            extension = get_file_extension(file.filename)
-            filename = secure_filename(request.form.get("name"))
-            file.save(os.path.join(f"images/{category}", f"{filename}.{extension}"))
-            return jsonify({"success":"Image uploaded correctly", "image": f"{category}/{filename}.{extension}"}), 200
+  if file and allowed_file(file.filename):
+      extension = get_file_extension(file.filename)
+      filename = secure_filename(request.form.get("name"))
+      file.save(os.path.join(f"images/{category}", f"{filename}.{extension}"))
+      return jsonify({"success":"Image uploaded correctly", "image": f"{category}/{filename}.{extension}"}), 200
 
 @app.route("/categories", methods=["GET"])
 def get_all_categories():
