@@ -24,11 +24,8 @@ function add_product(data)
     const title = document.getElementById("main-title");
     title.innerText = "Complete los datos del nuevo producto";
 
-    const product_container = document.querySelector(".main-container-products");
-    if(product_container != null)
-    {
-        product_container.remove();
-    }
+    remove_old_products_list();
+
     container.setAttribute("class", "data-container");
 
     create_product_form(data);
@@ -40,10 +37,34 @@ edit_button.addEventListener("click", edit_product);
 function edit_product()
 {
     remove_old_form();
+    remove_old_products_list();
+
     fetch("http://localhost:5000/products")
         .then(response => response.json())
-        .then(data_prod => load_products(data_prod))
+        .then(data_prod => load_products(data_prod, "edit"))
         .catch(e => console.log(e));
+}
+
+const delete_button = document.getElementById("delete");
+delete_button.addEventListener("click", delete_product);
+
+function delete_product()
+{
+    remove_old_form();
+    remove_old_products_list();
+
+    fetch("http://localhost:5000/products")
+        .then(response => response.json())
+        .then(data_prod => load_products(data_prod, "delete"))
+        .catch(e => console.log(e));
+}
+
+function confirm_delete(product)
+{
+    if(confirm("Esta seguro que desea eliminar el producto: " + product.name))
+    {
+        send_message("Producto eliminado correctamente", "confirm");
+    };
 }
 
 const container = document.getElementById("data-container");
@@ -60,6 +81,15 @@ function remove_old_form()
     if(previous_message != null)
     {
         previous_message.remove();
+    }
+}
+
+function remove_old_products_list()
+{
+    const product_container = document.querySelector(".main-container-products");
+    if(product_container != null)
+    {
+        product_container.remove();
     }
 }
 
@@ -459,8 +489,14 @@ function send_message(message, type)
 {
 
     remove_old_form();
+    remove_old_products_list();
+
     const order_container = document.createElement("article");
-    const main_container = document.querySelector(".data-container");
+    var main_container = document.querySelector(".data-container");
+    if(main_container == null)
+    {
+        main_container = document.getElementById("data-container");
+    }
     order_container.setAttribute("class", "message-container");
 
     const error_text = document.createElement("p");
@@ -490,10 +526,17 @@ function send_message(message, type)
     main_container.append(order_container);
 }
 
-function  load_products(data_prod){   
+function  load_products(data_prod, action){   
   
     const title = document.getElementById("main-title");
-    title.innerText = "Seleccione el producto a modificar";
+    if(action == "edit")
+    {
+        title.innerText = "Seleccione el producto a modificar";
+    }
+    else
+    {
+        title.innerText = "Seleccione el producto a eliminar";
+    }
 
     const main_container = document.getElementById("data-container");
     main_container.classList.remove("data-container");
@@ -508,13 +551,22 @@ function  load_products(data_prod){
       
         const div = document.createElement("div");  //creo un div por producto
         div.setAttribute("class","product");
+        var product_button_text;
+        if(action == "edit")
+        {
+            product_button_text = "Modificar";
+        }
+        else
+        {
+            product_button_text = "Eliminar";
+        }
         div.innerHTML = `
             
                 <img  class="image-product" src="http://localhost:5000/images/${data_prod[index].image}">
             <div class="description">
                 <h3 class="name-product">${data_prod[index].name}</h3>
                 <p class="product-price">$${data_prod[index].price}</p>
-                <button class="add-cart" id="${data_prod[index].id}">Modificar</button>
+                <button class="add-cart" id="${data_prod[index].id}">${product_button_text}</button>
             </div>
 
          `  ;
@@ -525,10 +577,21 @@ function  load_products(data_prod){
     }
     main_container.append(products);
 
-    for(let index = 0; index<data_prod.length;index++)
+    if (action == "edit")
     {
-        document.getElementById(data_prod[index].id).addEventListener("click", e => add_product(data_prod[index]));
+        for(let index = 0; index<data_prod.length;index++)
+            {
+                document.getElementById(data_prod[index].id).addEventListener("click", e => add_product(data_prod[index]));
+            }
     }
+    else
+    {
+        for(let index = 0; index<data_prod.length;index++)
+            {
+                document.getElementById(data_prod[index].id).addEventListener("click", e => confirm_delete(data_prod[index]));
+            }        
+    }
+
 
     refresh_btn();
 }
