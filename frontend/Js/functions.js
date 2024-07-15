@@ -214,7 +214,11 @@ function translate_shopping(){
 }
 
 function translate_home(){
-    window.location.href="/"
+    window.location.href="index.html"
+}
+
+function translate_admin(){
+    window.location.href="admin.html"
 }
 //------------------------------------------------------------------------------------------------
 

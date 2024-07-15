@@ -617,3 +617,11 @@ function  load_products(data_prod, action){
 
     refresh_btn();
 }
+
+const home_button = document.getElementById("home");
+home_button.addEventListener("click", translate_home);
+
+
+function translate_home(){
+    window.location.href="index.html"
+}
