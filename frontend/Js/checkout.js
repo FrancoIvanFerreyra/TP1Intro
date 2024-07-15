@@ -30,7 +30,7 @@ function handle_response(data, event){
     console.log(data[0])
     if((data[0] == "Client saved correctly") || (data[0] == "Client already exists")){
         alert("¡La compra se ha realizado con éxito!")
-       // window.location.href = '/'
+        //window.location.href = '/'
 
         add_purchase_order(data[1], event)
     }else{
