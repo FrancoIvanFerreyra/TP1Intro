@@ -17,7 +17,7 @@ function button_selection()
 
 
 const add_button = document.getElementById("add");
-add_button.addEventListener("click", add_product);
+add_button.addEventListener("click", e => add_product(null));
 
 function add_product(data)
 {
@@ -71,7 +71,7 @@ function create_product_form(data)
     const img_uploaded = document.createElement("img");
     img_uploaded.setAttribute("class", "img-uploaded");
 
-    if(data.image != null)
+    if(data != null)
     {
         img_uploaded.setAttribute("src", "http://localhost:5000/images/" + data.image);
     }
@@ -178,18 +178,26 @@ function create_product_form(data)
 
      fetch("http://localhost:5000/categories")
         .then(response => response.json())
-        .then(function(data){
-            console.log(data);
-            for(let index = 0; index < data.length; index++)
+        .then(categories => {
+            console.log(categories);
+            for(let index = 0; index < categories.length; index++)
             {
                 const option = document.createElement("option");
                 option.setAttribute("value", index + 1);
-                option.innerText = data[index].name;
+                option.innerText = categories[index].name;
                 form_data_category_input.append(option);
             }
             if (data != null)
             {
-                form_data_category_input.setAttribute("selected", data.category);
+                for(let index = 0; index < form_data_category_input.options.length; index++)
+                {
+                    if (form_data_category_input.options[index].value == data.category_id)
+                    {
+                        form_data_category_input.options[index].selected = true;
+                        break;
+                    }                
+                }
+
             }
         })
         .catch(e => console.log(e))
@@ -244,6 +252,12 @@ function create_product_form(data)
 
     submit_button.addEventListener("click", function(event)
     {
+        const category_folders = {
+            "1": "perifericos",
+            "2": "gpu",
+            "3": "cpu"
+        }
+
         event.preventDefault();
         const form_data = new FormData(form_container);
         
@@ -255,8 +269,15 @@ function create_product_form(data)
         const img_data = new FormData();
         img_data.append("file", uploaded_file);
         img_data.append("name", name);
-
-        post_image(category, img_data, name, description, price);
+        img_data.append("category", category_folders[category]);
+        if(data == null)
+        {
+            post_image(category, img_data, name, description, price);
+        }
+        else
+        {
+            update_image(data.id, uploaded_file, category, img_data, name, description, price);
+        }
 
     })
     form_actions_container.append(submit_button);
@@ -264,6 +285,96 @@ function create_product_form(data)
 
 
     container.append(form_container);
+}
+
+function update_image(id, new_file, category, new_img_data, name, description, price)
+{
+    if(new_file != null)
+    {
+        fetch("http://localhost:5000/images/" + id,{
+            method: "PUT",
+            body: new_img_data
+            
+        }
+        )
+        .then(response => response.json())
+        .then(data => {
+    
+            switch(data.success)
+            {
+                case "Error, image was deleted in db":
+                    send_message("Error: la imagen fue borrada en la base de datos", "error");
+                    break;
+                case "Error: no image selected":
+                    send_message("Error: no se selecciono ninguna imagen", "error");
+                    break;
+                default:
+                    update_form(id, data.image, category, name, description, price);
+            }
+        })
+        .catch(e => {
+            send_message("Error inesperado", "error");
+            console.log(e)});
+    }
+    else
+    {
+        fetch("http://localhost:5000/images/" + id,{
+            method: "PATCH",
+            body: new_img_data
+            
+        }
+        )
+        .then(response => response.json())
+        .then(data => {
+    
+            switch(data)
+            {
+                case "Error, image was deleted in db":
+                    send_message("Error: la imagen fue borrada en la base de datos", "error");
+                    break;
+                case "Error: no image selected":
+                    send_message("Error: no se selecciono ninguna imagen", "error");
+                    break;
+                default:
+                    update_form(id, data.image, category, name, description, price);
+            }
+        })
+        .catch(e => {
+            send_message("Error inesperado", "error");
+            console.log(e)});
+    }
+
+}
+
+function update_form(id, image, category, name, description, price)
+{
+    fetch("http://localhost:5000/products/" + id,{
+        method: "PUT",
+
+        headers:{
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            image : image,
+            name : name,
+            category_id : category,
+            description : description,
+            price : price
+        })
+    })
+    .then(response => response.json())
+    .then(message =>{
+        switch(message)
+        {
+            case "Product data succesfully changed":
+                console.log("Producto modificado exitosamente");
+                break;
+            default:
+                console.log("Error inesperado al modificar");
+                break;
+        }
+    })
+
 }
 
 function post_image(category, img_data, name, description, price)
