@@ -1,14 +1,3 @@
-const productInCart = JSON.parse(localStorage.getItem("product-cart"))
-
-function count_number(){
-    let number = 0 ;
-    for(let i = 0;i<productsInnCart.length;i++){
-        number = productsInCart[i].cantidad + number;
-    } 
-    const articles = document.getElementById("number");
-    articles.innerText = number
-}
-
 
 function send_form(event){
     event.preventDefault()
@@ -41,7 +30,7 @@ function handle_response(data, event){
     console.log(data[0])
     if((data[0] == "Client saved correctly") || (data[0] == "Client already exists")){
         alert("¡La compra se ha realizado con éxito!")
-        window.location.href = '/'
+       // window.location.href = '/'
 
         add_purchase_order(data[1], event)
     }else{
@@ -70,28 +59,48 @@ function add_purchase_order(client_id, event){
         .catch(handle_error)
 }
 
+
 function handle_response_purchase_order(data){
+    
     console.log(data[0])
-    //purchase_order_id = data[1]
-    //fetch(`http://localhost:5000/purchase_orders/${order_id}`, {
-    //    method: "POST",
-    //    headers: {
-    //        "Content-Type": "application/json"
-    //    },
-    //    body: JSON.stringify({
-    //        purchase_order_id: purchase_order_id,
-    //        //product_id: product_id,
-    //        //product_qty: product_qty,
-    //    })
-    //})
-    //    .then((response) => response.json())
-    //    .then(handle_response_purchase_order_products)
-    //    .catch(handle_error)
+    const productInCartLC = JSON.parse(localStorage.getItem("product-cart"))  
+    
+    let product_list = [];
+   
+    console.log(productInCartLC);
+
+    
+
+    for(let i = 0 ; i<productInCartLC.length;i++){
+        console.log(i)
+        let product_item = {
+            product_id: parseInt(productInCartLC[i].id),
+            product_qty: parseInt(productInCartLC[i].cantidad),
+        };
+        product_list.push(product_item);
+    }
+
+
+    purchase_order_id = data[1];
+
+    fetch(`http://localhost:5000/purchase_orders/${purchase_order_id}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            product_list
+        })
+    })
+        .then((response) => response.json())
+        .then(handle_response_purchase_order_products)
+        .catch(handle_error)
+    
 }
 
-//function handle_response_purchase_order_products(data){
-//    console.log(data[0])
-//}
+function handle_response_purchase_order_products(data){
+   console.log(data[0])
+}
 
 
 function translate_cart(){
@@ -105,4 +114,8 @@ function translate_shopping(){
 
 function translate_home(){
     window.location.href="/"
+}
+
+function handle_error(){
+    return "ERROR";
 }
