@@ -1,7 +1,9 @@
 
-function buttons_categorie(category_list){
+
+
+function buttons_category(category_list){
     
-    const categorie = document.getElementById("category")  
+    const category = document.getElementById("category")  
   
 
     for(let index = 0; index < category_list.length; index++){
@@ -9,17 +11,17 @@ function buttons_categorie(category_list){
             
         element_list.innerHTML = `
     
-        <button class="menu-categorie category-button" id="${category_list[index].id}" onclick="products(this)">${category_list[index].name}</button>  
+        <button class="menu-category category-button" id="${category_list[index].id}" onclick="products(this)">${category_list[index].name}</button>  
    
      `  
     
-        categorie.append(element_list);
+        category.append(element_list);
     
-        const buttonscategorie = document.querySelectorAll(".category-button");
-        buttonscategorie.forEach(boton => {
+        const buttonscategory = document.querySelectorAll(".category-button");
+        buttonscategory.forEach(boton => {
         boton.addEventListener("click", (e) => {
         
-        buttonscategorie.forEach(boton => boton.classList.remove("active"))
+        buttonscategory.forEach(boton => boton.classList.remove("active"))
 
         e.currentTarget.classList.add("active");
         } )
@@ -87,7 +89,7 @@ function product_page(coup){
         .then(
             data => {
                 category_list = data;
-                buttons_categorie(category_list);
+                buttons_category(category_list);
                 
             }
         )

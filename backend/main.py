@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from models import db, Product, Category, Client, PurchaseOrder, PurchaseOrder_Product
 from sqlalchemy import func
@@ -298,7 +298,7 @@ def get_purchase_order(order_id):
   purchase_order_products = PurchaseOrder_Product.query\
     .join(Product, PurchaseOrder_Product.product_id == Product.id)\
     .where(PurchaseOrder_Product.purchase_order_id == order_id)\
-    .with_entities(Product.name, Product.price, PurchaseOrder_Product.product_qty)\
+    .with_entities(Product.image, Product.name, Product.price, PurchaseOrder_Product.product_qty)\
     .all()
   
   #Storing products data
@@ -306,6 +306,7 @@ def get_purchase_order(order_id):
   total_price = 0
   for product in purchase_order_products:
      new_product = {
+        "image": product.image,
         "name": product.name,
         "unit_price": product.price,
         "qty": product.product_qty,
@@ -327,6 +328,14 @@ def get_purchase_order(order_id):
      "total_price": total_price
   }
   return response, 200
+
+@app.route("/images/<category>/<file>")
+def get_image(category, file):
+    try:
+      return send_from_directory("images", f"{category}/{file}")
+    except Exception as e:
+      return jsonify("Error: " + e), 500
+  
 
 
 if __name__ == "__main__":
