@@ -44,7 +44,9 @@ aside{
     font-weight: 400;
     font-size: 1.5rem;
     background-color: transparent;
-    color:white;
+
+    color:rgb(255, 255, 255);
+
     cursor: pointer;
 }
 
@@ -108,7 +110,8 @@ aside{
     font-size: .80rem;
 }
 
-main{
+main {
+    
     background-color: rgb(229, 231, 233);
     margin: 1rem;
     margin-left: 0;
@@ -167,24 +170,33 @@ main{
     gap: 1rem;
 }
 
+.product {
+    max-width: 100%;
+}
+
 .image-product{
     max-width: 100%;
     border-radius: 1rem;
+ 
+    width: 233px;
+    height: 200px;
+
 }
 
 .description{
-    background-color: rgb(0, 0, 0);
+    background-image: radial-gradient(circle, #4b6cb7 10%, #182848 90%);
     color: rgb(255, 255, 255);
     padding: .5rem;
     border-radius: 1rem;
-    margin-top: -2rem;
+    margin-top: -1.5rem;
+    display: flex;
     position: relative;
     flex-direction: column;
     gap: .25rem;
 }
 
 .name-product{
-    font-size: 1rem;
+    font-size: 1em;
 }
 
 .add-cart{
@@ -198,9 +210,26 @@ main{
 } 
 
 .add-cart:hover{
-    background-color: rgb(0, 0, 0);
+    background-image: radial-gradient(circle, #4b6cb7 10%, #182848 90%);
     color:rgb(255, 255, 255);
 }
+
+.see-more{
+    background-color: rgb(242, 244, 244);
+    color: rgb(0, 0, 0);
+    border-radius: 1.5rem;
+    padding: .4rem;
+    cursor: pointer;
+    border: 1.5px solid white;
+    padding-right: 1.5rem;
+}
+
+.see-more:hover{
+    background-image: radial-gradient(circle, #4b6cb7 10%, #182848 90%);
+    color:rgb(255, 255, 255);
+}
+
+
 
 /*  Pagina carrito */
 
@@ -209,10 +238,9 @@ main{
 }
 
 .container-cart{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    flex-direction: column;
     gap: 1.5rem;
-    align-items: center;
 }
 
 .cart-void{
@@ -221,9 +249,6 @@ main{
 
 .subtitle{
     color: rgb(22, 160, 133);
-    grid-column: 1 / 3;
-    text-align: right;
-    font-size: larger;
 }
 
 .cart-products{
@@ -242,9 +267,11 @@ main{
     border-radius: 1rem;
 }
 
-.product-image-cart{
+.product-img-cart{
     width: 4rem;
     border-radius: 1rem;
+    height: 89;
+    width:100;
 }
 
 .cart-product small{

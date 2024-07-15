@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra PC</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        
+        h1, h2, h3, p, a, ul {
+            margin:0;
+            padding:0;
+        }    
+        
+        ul {
+            list-style-type: none;
+        }
+        
+        a {
+            text-decoration: none;
+        }
+
+        .size {
+            width: 480px;
+            height: 270px;
+        }
+        
+        img {
+            max-width: 100%;
+        }
+
+        .main-container{
+            display: grid;
+            grid-template-columns: 1fr 4fr;
+            background-image: radial-gradient(circle, #4b6cb7 10%, #182848 90%);
+        }
+        
+        /*background-color: rgb(22, 160, 133); color alternativo*/
+        
+        aside {
+            padding: 2rem;
+            padding-right: 0;
+            color: rgb(255, 255, 255);
+            position: sticky;
+            height: 100vh;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content:space-between;
+        }
+        
+        .logo{
+            font-weight: 400;
+            font-size: 1.5rem;
+            background-color: transparent;
+        
+            color:white;
+        
+            cursor: pointer;
+            
+        }
+        
+        .menu-nav {
+            display: flex;
+            flex-direction: column;
+            gap: .5rem
+        }
+        
+        .menu-categorie{
+            background-color: transparent;
+            border: 0;
+            color:white;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            gap: 1rem;
+            font-weight: 600;
+            padding: 1rem;
+            width: 100%;
+        }
+        
+        .menu-categorie.active{
+            background-color: rgb(229, 231, 233);
+            color:rgb(22, 160, 133);;
+        }
+        
+        .menu-cart{
+            background-color: transparent;
+            border: 0;
+            color:white;
+            font-size: .85rem;
+            cursor: pointer;
+            display: flex;
+            gap: 1rem;
+            font-weight: 600;
+            padding: 1rem;
+        }
+        
+        
+        
+        .menu-cart.active{
+            background-color: rgb(229, 231, 233);
+            color:rgb(22, 160, 133);;
+        }
+        
+        .articles{
+            background-color: white;
+            color:rgb(22, 160, 133);
+            padding: .15rem .25rem;
+            border-radius: 0.25rem;
+        
+        }
+        
+        .footer-text{
+           color: rgb(212, 212, 212);
+           font-size: .80rem;
+        }
+        
+        main {
+            gap: 30px;
+            background-color: rgb(229, 231, 233);
+            margin: 2rem;
+            margin-left: -0.5rem;
+            border-radius: 2rem;
+            padding: 3rem;
+            padding-bottom: 1rem;
+           
+        }
+        
+        .name-categorie {
+            width: 100px;
+            height: 100px;
+            color: rgb(22, 160, 133);
+            margin-bottom: 2rem;
+        
+        }
+        
+        .container_main_products{
+            border-radius: 1rem;
+            border-bottom: 1px solid rgb(182, 182, 182);
+        }
+        
+        .container-title{
+            padding: 25px;
+            padding-top: 25px;
+            text-align: center;
+            background-color: rgb(219, 219, 219);
+            color: #182848;
+            
+            
+        }
+
+        .main-product {
+            display: flex;
+            align-items: center;
+            margin-left: 2rem;
+            border-radius: 2rem solid;
+        }
+
+        .container-image{
+            flex: 1.5;
+        }
+
+        .container-info{
+            flex: 1.5;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price {
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgb(0, 0, 0);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .price span {
+            font-size: 24px;
+            font-weight: 300;
+        }
+
+        .container-cart-add{
+            padding: 30px 0;
+            display: flex;
+            gap: 20px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid ;
+        }
+
+        .container-cant{
+            position: relative;
+        }
+
+        .input-cant{
+            background-color: rgb(219, 219, 219);
+            border: none;
+            padding: 10px;
+            width: 60px;
+            height: 100%;
+            color:black;
+            font-weight: 500;
+        }
+
+        .input-cant:focus{
+            outline: none;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+        input[type=number] {-moz-appearance:textfield; }
+
+
+        .add-cart{
+            border: none;
+            padding: 10px;
+            color: white;
+            background-color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-increment {
+            display: flex;
+            position: absolute;
+            flex-direction: column;
+            top: 7px;
+            right: 7px;
+            font-size: 11px;
+            cursor: pointer;
+            color: black;
+        }
+
+        .add-cart:hover{
+            color: rgb(88, 83, 83);
+        }
+
+        .bi-chevron-up{
+            color: rgb(0, 0, 0);
+        }
+
+        .bi-chevron-down{
+            color: rgb(0, 0, 0);
+        }
+       
+        .description{
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid rgb(189, 189, 189);
+            padding: 10px 0;
+        }
+
+        .text-description{
+            font-size: 17px;
+            color: black;
+            margin-top: 4px;
+            line-height: 20px;
+        }
+
+        </style>
+
+</head>
+<body> 
+    <div class="main-container">
+        <aside>    
+            <header>
+                <a href="/"><h1 class="logo">COMPRA PC</h1></a>
+            </header>
+            <nav>
+                <ul class="menu-nav" id="category">
+                    
+                    <li>
+                        <button class="menu-categorie category-button" onclick="back()"><i class="bi bi-arrow-90deg-left"></i>Volver</button>
+                    </li>
+
+                    <li>
+                        <button class="menu-categorie category-button" onclick="translate_shopping()"><i class="bi bi-cash-coin"></i>Compras</button>
+                    </li>
+
+
+                </ul>
+                    <ul class="menu-nav">
+                    
+                    
+                        <li>
+                        <a  class="menu-cart category-button" onclick="translate_cart()"><i class="bi bi-cart4"></i>Carrito
+                            <span class="articles" id="number">0</span></a>
+                        </li>
+                    </ul>
+            </nav>
+            <footer>
+                <p class="footer-text">Derechos de Nacho,Franco,Pili ©
+                    </p>
+            </footer>
+        </aside>
+        <main>
+             
+            <div class="container_main_products" id="products-container"> 
+            </div>
+
+        </main>
+</div>
+<script>
+
+    function handle_error(error){
+        console.log(error)
+    }
+
+    function parse_data(data){
+
+
+
+        const product = document.getElementById("products-container")
+
+        const div = document.createElement("div")
+        //<img src="http//:localhost:5000/images/${data.image}">
+      
+        div.setAttribute("class","product");
+        div.innerHTML  = `
+             <div class="container-title">
+                ${data.name}
+            </div>
+            
+        <main class="main-product">
+
+	    <div class="container-image">
+			    <img class="size" src="http://localhost:5000/images/${data.image}">
+	    </div>
+
+	    <div class="container-info">
+			<div class="price">
+				<span>$${data.price}</span>
+			</div>
+	
+
+	        <div class="container-cart-add">
+		        <div class="container-cant">
+			        <input type="number" placeholder="1" min="1" max="3" value="1" class="input-cant">
+
+			        <div class="btn-increment">
+				        <i class="bi bi-chevron-up" id="increment"></i>
+				        <i class="bi bi-chevron-down" id="decrement"></i>
+			        </div>
+		        </div>
+		        <button class="add-cart" id="${data.id}" onclick="add_cart(this)"><i class="bi bi-basket3-fill"></i>Agregar</button>
+	        </div>
+
+	        <div class="description">
+		        <div class="title-description">
+			        <h4>Descripcion :</h4>
+		        </div>
+		        <div class="text-description">
+			        <p>${data.description}</p>
+		        </div>
+	        </div>
+        </div>
+
+    </main>
+                
+        `
+        product.append(div)
+        countAdd()
+    }
+
+
+
+    let productsCart;
+
+    const productInCartLC = JSON.parse(localStorage.getItem("product-cart")) //Con esto analizo si en el navegador hay productos almacenado
+
+
+
+    if(productInCartLC){  //SI llega  haber algo en el carrito  lo guardo en la variable de prodcutsCart que luego utilizo para seguir añadiendo productos
+        productsCart = productInCartLC;
+        count_number(); //voy actualizando el numero
+    }else{              //SI NO a la variable productsCart la inicio como una lista vacia y luego le meto los productod que seleccione
+        productsCart = [];
+    }
+
+
+
+    function countAdd() {
+        const btnInc = document.getElementById("increment")
+        const btnDec = document.querySelector("#decrement");
+
+        const quantity = document.querySelector(".input-cant");
+
+        let valueByDefault = parseInt(quantity.value);
+
+        console.log(parseInt(quantity.value))
+
+        btnInc.addEventListener("click", () => {
+            if(valueByDefault === 3){
+                return;
+            }else {
+            valueByDefault += 1;
+            quantity.value = valueByDefault;
+            }
+        })
+
+
+        btnDec.addEventListener("click", () => {
+            if(valueByDefault === 1){
+                return;
+            }else {
+                valueByDefault -=1;
+                quantity.value = valueByDefault;
+            }
+         
+        })
+    }
+
+
+
+
+    function add_cart(e){
+        
+        
+        const quantity = document.querySelector(".input-cant");   //Agarro la clase del input
+        
+        let quantValue = parseInt(quantity.value);                //Obtengo el valor del inout en se momento
+
+        let productAdd;
+
+        productAdd = data;
+
+        if(productsCart.some(product => product.id == id)){   //Busca una coincidencia y si la encuentra tira True;
+            
+            for(let index = 0; index<productsCart.length; index++){
+            if(productsCart[index].id == id){
+                productsCart[index].cantidad = productsCart[index].cantidad + quantValue;
+            }
+        }
+        }else{
+            productAdd.cantidad = quantValue;
+            productsCart.push(productAdd)
+        }
+     
+        count_number();
+
+        //guardo los elementos del array en el localstorage asi lo puedo usar en la pagina del carrito.
+
+        localStorage.setItem("product-cart", JSON.stringify(productsCart))
+
+    }
+    
+    function count_number(){
+    let number = 0 ;
+    for(let i = 0;i<productsCart.length;i++){
+        number = productsCart[i].cantidad + number;
+    } 
+    const articles = document.getElementById("number");
+    articles.innerText = number
+}
+
+    function back(){
+        window.location.href = "/"
+    }
+    function translate_shopping(){
+        window.location.href = "/shopping.html"
+    }
+    function translate_cart(){
+        window.location.href = "/cart.html"
+    }
+   
+
+
+    const params = new URLSearchParams(window.location.search)
+    const id = params.get("id")
+
+    fetch(`http://localhost:5000/products/${id}`)
+    .then(content => content.json())
+    .then(product => {
+        data = product;
+        parse_data(data)
+    })
+    .catch(handle_error)
+    </script>
+</body>
+
+</html>
