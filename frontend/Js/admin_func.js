@@ -55,6 +55,12 @@ function remove_old_form()
     {
         previous_form.remove();
     }
+
+    const previous_message = document.querySelector(".message-container");
+    if(previous_message != null)
+    {
+        previous_message.remove();
+    }
 }
 
 function create_product_form(data)
@@ -367,7 +373,7 @@ function update_form(id, image, category, name, description, price)
         switch(message)
         {
             case "Product data succesfully changed":
-                console.log("Producto modificado exitosamente");
+                send_message("Producto modificado exitosamente", "confirm");
                 break;
             default:
                 console.log("Error inesperado al modificar");
