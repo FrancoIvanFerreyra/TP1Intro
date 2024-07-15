@@ -1,3 +1,15 @@
+const productInCart = JSON.parse(localStorage.getItem("product-cart"))
+
+function count_number(){
+    let number = 0 ;
+    for(let i = 0;i<productsInnCart.length;i++){
+        number = productsInCart[i].cantidad + number;
+    } 
+    const articles = document.getElementById("number");
+    articles.innerText = number
+}
+
+
 function send_form(event){
     event.preventDefault()
     
@@ -80,3 +92,17 @@ function handle_response_purchase_order(data){
 //function handle_response_purchase_order_products(data){
 //    console.log(data[0])
 //}
+
+
+function translate_cart(){
+    window.location.href="cart.html"
+}
+
+function translate_shopping(){
+    window.location.href="shopping.html"
+
+}
+
+function translate_home(){
+    window.location.href="/"
+}

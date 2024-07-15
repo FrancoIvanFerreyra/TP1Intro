@@ -145,3 +145,6 @@ function cartBuy(){
 }
 
 
+function translate_checkout(){
+    window.location.href="checkout.html"
+}
