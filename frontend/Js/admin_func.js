@@ -19,7 +19,7 @@ function button_selection()
 const add_button = document.getElementById("add");
 add_button.addEventListener("click", add_product);
 
-function add_product()
+function add_product(data)
 {
     const title = document.getElementById("main-title");
     title.innerText = "Complete los datos del nuevo producto";
@@ -31,7 +31,7 @@ function add_product()
     }
     container.setAttribute("class", "data-container");
 
-    create_product_form();
+    create_product_form(data);
 }
 
 const edit_button = document.getElementById("edit");
@@ -57,7 +57,7 @@ function remove_old_form()
     }
 }
 
-function create_product_form()
+function create_product_form(data)
 {   
 
     remove_old_form();
@@ -70,7 +70,15 @@ function create_product_form()
 
     const img_uploaded = document.createElement("img");
     img_uploaded.setAttribute("class", "img-uploaded");
-    img_uploaded.setAttribute("src", "http://localhost:5000/images/default/default.jpg");
+
+    if(data.image != null)
+    {
+        img_uploaded.setAttribute("src", "http://localhost:5000/images/" + data.image);
+    }
+    else
+    {
+        img_uploaded.setAttribute("src", "http://localhost:5000/images/default/default.jpg");
+    }
     form_container.append(img_uploaded);
 
     const img_label = document.createElement("label");
@@ -120,6 +128,11 @@ function create_product_form()
     form_data_name_input.setAttribute("id", "_name");
     form_data_name_input.setAttribute("name", "name");
     form_data_name_input.setAttribute("class", "form-input-field-normal input-pad");
+    
+    if(data != null)
+    {
+        form_data_name_input.value = data.name;
+    }
 
     
     form_data_name_container.append(form_data_name_label);
@@ -139,6 +152,11 @@ function create_product_form()
     form_data_description_input.setAttribute("name", "description");
     form_data_description_input.setAttribute("type", "text");
     form_data_description_input.setAttribute("class", "form-input-field-big input-pad");
+
+    if(data != null)
+    {
+        form_data_description_input.value = data.description;
+    }
 
     
     form_data_description_container.append(form_data_description_label);
@@ -169,6 +187,10 @@ function create_product_form()
                 option.innerText = data[index].name;
                 form_data_category_input.append(option);
             }
+            if (data != null)
+            {
+                form_data_category_input.setAttribute("selected", data.category);
+            }
         })
         .catch(e => console.log(e))
 
@@ -191,6 +213,11 @@ function create_product_form()
     form_data_price_input.setAttribute("type", "number");
     form_data_price_input.setAttribute("class", "form-input-field-normal form-input-field-price input-pad");
 
+    if (data != null)
+    {
+        form_data_price_input.value = data.price;
+    }
+
     
     form_data_price_container.append(form_data_price_label);
     form_data_price_container.append(form_data_price_input);
@@ -205,7 +232,15 @@ function create_product_form()
     const submit_button = document.createElement("button");
     submit_button.setAttribute("class", "custom-file-upload img-upload-submit form-submit");
     submit_button.setAttribute("type", "submit");
-    submit_button.innerText = "ENVIAR";
+
+    if (data != null)
+    {
+        submit_button.innerText = "MODIFICAR";
+    }
+    else
+    {
+        submit_button.innerText = "AGREGAR";
+    }
 
     submit_button.addEventListener("click", function(event)
     {
@@ -362,15 +397,21 @@ function  load_products(data_prod){
             <div class="description">
                 <h3 class="name-product">${data_prod[index].name}</h3>
                 <p class="product-price">$${data_prod[index].price}</p>
-                <button class="add-cart" id="${data_prod[index].id}">Agregar al carrito</button>
-                <button class="see-more" id="${data_prod[index].id}" onclick="product_page(this)"><i class="bi bi-eye-fill"></i></button>
+                <button class="add-cart" id="${data_prod[index].id}">Modificar</button>
             </div>
 
          `  ;
+
            
          products.append(div);
+
     }
     main_container.append(products);
+
+    for(let index = 0; index<data_prod.length;index++)
+    {
+        document.getElementById(data_prod[index].id).addEventListener("click", e => add_product(data_prod[index]));
+    }
 
     refresh_btn();
 }
