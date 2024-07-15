@@ -63,7 +63,29 @@ function confirm_delete(product)
 {
     if(confirm("Esta seguro que desea eliminar el producto: " + product.name))
     {
-        send_message("Producto eliminado correctamente", "confirm");
+        fetch("http://localhost:5000/images/" + product.id,{
+            method: "DELETE"
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success)
+            {
+                fetch("http://localhost:5000/products/" + product.id,{
+                    method: "DELETE"
+                })
+                .then(response => response.json())
+                .then(data =>{
+                    switch(data)
+                    {
+                        case "Product deleted succesfully":
+                            send_message("Producto eliminado correctamente", "confirm");
+                            break;
+                        default:
+                            send_message("El producto no se pudo eliminar", "error");
+                    }
+                })
+            }
+        })
     };
 }
 
