@@ -267,18 +267,27 @@ def add_purchase_order_products(order_id):
   if coincidence:
      return jsonify("Error: order already exists"), 400
   previous_items = []
-  for item in request.json:
-     
-     #Preventing multiple entries of the same product
-     if item["product_id"] in previous_items:
-        return jsonify("Error, only one entry per product allowed"), 400 
-     new_item = PurchaseOrder_Product(
-        purchase_order_id = order_id,
-        product_id = item["product_id"],
-        product_qty = item["product_qty"]
-     )
-     db.session.add(new_item)
-     previous_items.append(item["product_id"])
+  for item in request.json["product_list"]:
+    #print("El item es " + item)
+    print(item["product_id"])
+    #Preventing multiple entries of the same product
+    if item["product_id"] in previous_items:
+      return jsonify("Error, only one entry per product allowed"), 400 
+    new_item = PurchaseOrder_Product(
+      purchase_order_id = order_id,
+      product_id = item["product_id"],
+      product_qty = item["product_qty"]
+    )
+    print("el dato es: " + new_item.purchase_order_id)
+
+    #Id autoincrement(catching empty table exception)
+    try:
+      new_item.id = db.session.query(func.max(PurchaseOrder_Product.id)).scalar() + 1
+    except TypeError:
+      new_item.id = 1
+
+    db.session.add(new_item)
+    previous_items.append(item["product_id"])
   db.session.commit()
   return jsonify("Items succesfully loaded to order"), 200
 
