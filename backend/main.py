@@ -268,7 +268,6 @@ def add_purchase_order_products(order_id):
      return jsonify("Error: order already exists"), 400
   previous_items = []
   for item in request.json:
-     
      #Preventing multiple entries of the same product
      if item["product_id"] in previous_items:
         return jsonify("Error, only one entry per product allowed"), 400 
