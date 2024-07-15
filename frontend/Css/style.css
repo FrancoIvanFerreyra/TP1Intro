@@ -4,32 +4,31 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
 }
 
-h1, h2, h3, p, a, ul {
+h1, h2, h3, p, a, ul{
     margin:0;
     padding:0;
 }    
 
-ul {
+ul{
     list-style-type: none;
 }
 
-a {
+a{
     text-decoration: none;
 }
-
 
 .main-container{
     display: grid;
     grid-template-columns: 1fr 4fr;
-    background-image: radial-gradient(circle, #4b6cb7 10%, #182848 90%);
+    background-image: radial-gradient(circle, #4b6cb7 10%, rgb(24, 40, 72) 90%);
 }
 
-/*background-color: rgb(22, 160, 133); color alternativo*/
+/*background-color: rgb(24, 40, 72)); color alternativo*/
 
-aside {
+aside{
     padding: 2rem;
     padding-right: 0;
     color: rgb(255, 255, 255);
@@ -49,12 +48,9 @@ aside {
     color:rgb(255, 255, 255);
 
     cursor: pointer;
-    
 }
 
-
-
-.menu-nav {
+.menu-nav{
     display: flex;
     flex-direction: column;
     gap: .5rem
@@ -71,11 +67,17 @@ aside {
     font-weight: 600;
     padding: 1rem;
     width: 100%;
+    transition: all 0.2s ease;
+}
+
+.menu-category:hover, .menu-cart:hover{
+    background-color: rgb(229, 231, 233);
+    color: rgb(24, 40, 72);
 }
 
 .menu-category.active{
     background-color: rgb(229, 231, 233);
-    color:rgb(22, 160, 133);;
+    color:rgb(24, 40, 72);
 }
 
 .menu-cart{
@@ -88,26 +90,24 @@ aside {
     gap: 1rem;
     font-weight: 600;
     padding: 1rem;
+    transition: all 0.2s ease
 }
-
-
 
 .menu-cart.active{
     background-color: rgb(229, 231, 233);
-    color:rgb(22, 160, 133);;
+    color:rgb(24, 40, 72);
 }
 
 .articles{
     background-color: white;
-    color:rgb(22, 160, 133);
+    color:rgb(24, 40, 72);
     padding: .15rem .25rem;
     border-radius: 0.25rem;
-
 }
 
 .footer-text{
-   color: rgb(212, 212, 212);
-   font-size: .80rem;
+    color: rgb(212, 212, 212);
+    font-size: .80rem;
 }
 
 main {
@@ -116,13 +116,52 @@ main {
     margin: 1rem;
     margin-left: 0;
     border-radius: 2rem;
-    padding: 3rem;
+    padding: 2.5rem;
 }
 
-.name-category {
-   color: rgb(22, 160, 133);
+.name-category{
+    color: rgb(24, 40, 72);
     margin-bottom: 2rem;
+}
 
+#name-category-checkout{
+    color: #4b6cb7;
+    margin-bottom: 3em;
+}
+
+.sub-title{
+    padding-bottom: 2em;
+}
+
+.checkout_nombre_apellido, .checkout_email, .checkout_phone_number, .checkout_payment_method{
+    padding-bottom: 1.5em;
+    font-weight: 500;
+}
+
+.checkout_input{
+    border-radius: 6px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    padding: 4px;
+}
+
+#checkout_button{
+    margin-top: 1em;
+    padding: 6px;
+    color: white;
+    border-width: 1px;
+    border-color: rgb(255, 255, 255);
+    border-radius: 15px;
+    border-style: solid;
+    background-color: #4b6cb7;
+    transition: all 0.25s ease;
+}
+
+#checkout_button:hover{
+    color: #4b6cb7;
+    border-color: #4b6cb7;
+    background-color: white;
 }
 
 .main-container-products{
@@ -161,7 +200,6 @@ main {
 }
 
 .add-cart{
-
     background-color: rgb(242, 244, 244);
     color: rgb(0, 0, 0);
     border-radius: 2rem;
@@ -169,7 +207,6 @@ main {
     text-transform: uppercase;
     cursor: pointer;
     border: 2px solid white;
-    
 } 
 
 .add-cart:hover{
@@ -197,8 +234,7 @@ main {
 /*  Pagina carrito */
 
 .bought{
-    color: rgb(22, 160, 133);
-  
+    color: rgb(24, 40, 72);
 }
 
 .container-cart{
@@ -208,12 +244,11 @@ main {
 }
 
 .cart-void{
-    color: rgb(22, 160, 133);
-   
+    color: rgb(24, 40, 72);
 }
 
 .subtitle{
-    color: rgb(22, 160, 133);
+    color: rgb(24, 40, 72);
 }
 
 .cart-products{
@@ -227,10 +262,9 @@ main {
     justify-content: space-between;
     align-items: center;
     background-color:rgb(255, 255, 255); ;
-    color: rgb(22, 160, 133);
+    color: rgb(24, 40, 72);
     padding: .5rem;
     border-radius: 1rem;
- 
 }
 
 .product-img-cart{
@@ -240,7 +274,7 @@ main {
     width:100;
 }
 
-.cart-product small {
+.cart-product small{
     font-size: 0.75rem;
 }
 
@@ -261,12 +295,13 @@ main {
     padding: 1rem;
     border-radius: 1rem;
     background-color: white;
-    color: rgb(22, 160, 133);
+    color: rgb(24, 40, 72);
     text-transform: uppercase;
     cursor: pointer;
 }
+
 .cart-actions-empty:hover{
-    background-color: rgb(22, 160, 133);
+    background-color: rgb(24, 40, 72);
     color: white;
 }
 
@@ -278,7 +313,7 @@ main {
 .cart-actions-total{
     display: flex;
     padding: 1rem;
-    color:rgb(22, 160, 133);
+    color:rgb(24, 40, 72);
     background-color: white;
     border-top-left-radius: 1rem;
     border-bottom-left-radius: 1rem;
@@ -289,7 +324,7 @@ main {
     padding: 1rem;
     border-top-right-radius: 1rem;
     border-bottom-right-radius:1rem ;
-    background-color: rgb(22, 160, 133);
+    background-color: rgb(24, 40, 72);
     color:white;
     text-transform: uppercase;
     cursor: pointer;
@@ -330,7 +365,7 @@ main {
     grid-template-rows: repeat(2, 1fr);
     gap: 1rem;
     border-radius: 10px;
-    background-color: rgb(22, 160, 133);
+    background-color: rgb(24, 40, 72);
     padding: 1rem;
 }
 
@@ -355,7 +390,7 @@ main {
     display: grid;
     gap: 1rem;
     border-radius: 10px;
-    background-color: rgb(22, 160, 133);
+    background-color: rgb(24, 40, 72);
     padding: 1.25rem 1rem 1.25rem 1rem;
     text-align: center;
 }
@@ -540,3 +575,37 @@ input[type="file"] {
     display: none;
 }
 
+.home-page {
+    padding-top: 0%;
+}
+
+.inside-home {
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 2rem;
+    border-color: #4b6cb7;
+    padding-top: 1em;
+    padding-bottom: 1rem;
+
+}
+
+
+.container-title-home {
+    
+    align-items: center;
+}
+
+.title-home {
+   text-align: center;
+}
+
+.subtitle-home {
+    text-align: center;
+    padding-top: 0.7em;
+    padding-bottom: 2em;
+}
+
+.img-home {
+    gap: 1em;
+    padding-left: 2em;
+}

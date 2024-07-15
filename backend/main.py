@@ -267,7 +267,8 @@ def add_new_client():
     #Verifying if already exists in database
     coincidence = Client.query.where(Client.email == _email).first()
     if coincidence:
-      return jsonify("Error, client already exists"), 400
+      if(coincidence.name == _name and coincidence.surname == _surname and coincidence.phone_number == _phone_number):
+        return jsonify("Client already exists", coincidence.id), 200
     
     #Creating client model
     new_client = Client(
@@ -291,7 +292,7 @@ def add_new_client():
        return jsonify(f"Error: {error}"), 500
 
     #Result is OK
-    return jsonify("Client saved correctly"), 200
+    return jsonify("Client saved correctly", new_client.id), 200
 
 @app.route("/purchase_orders", methods = ["POST"])
 def add_new_purchase_order():
@@ -319,7 +320,7 @@ def add_new_purchase_order():
        return jsonify(f"Error: {error}"), 500
 
     #Result is OK
-    return jsonify("Order saved correctly"), 200
+    return jsonify("Order saved correctly", new_purchase_order.id), 200
 
 @app.route("/purchase_orders/<order_id>", methods = ["POST"])
 def add_purchase_order_products(order_id):
@@ -327,18 +328,27 @@ def add_purchase_order_products(order_id):
   if coincidence:
      return jsonify("Error: order already exists"), 400
   previous_items = []
-  for item in request.json:
-     
-     #Preventing multiple entries of the same product
-     if item["product_id"] in previous_items:
-        return jsonify("Error, only one entry per product allowed"), 400 
-     new_item = PurchaseOrder_Product(
-        purchase_order_id = order_id,
-        product_id = item["product_id"],
-        product_qty = item["product_qty"]
-     )
-     db.session.add(new_item)
-     previous_items.append(item["product_id"])
+  for item in request.json["product_list"]:
+    #print("El item es " + item)
+    print(item["product_id"])
+    #Preventing multiple entries of the same product
+    if item["product_id"] in previous_items:
+      return jsonify("Error, only one entry per product allowed"), 400 
+    new_item = PurchaseOrder_Product(
+      purchase_order_id = order_id,
+      product_id = item["product_id"],
+      product_qty = item["product_qty"]
+    )
+    print("el dato es: " + new_item.purchase_order_id)
+
+    #Id autoincrement(catching empty table exception)
+    try:
+      new_item.id = db.session.query(func.max(PurchaseOrder_Product.id)).scalar() + 1
+    except TypeError:
+      new_item.id = 1
+
+    db.session.add(new_item)
+    previous_items.append(item["product_id"])
   db.session.commit()
   return jsonify("Items succesfully loaded to order"), 200
 

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="Css/style.css">
+</head>
+<body> 
+    <div class="main-container">
+        <aside>    
+            <header>
+                <a href="index.html"><h1 class="logo">GOLDFISH TECH</h1></a>
+            </header>
+            <nav>
+                <ul class="menu-nav" id="category">
+                    <li>
+                        <button class="menu-category category-button active"><i class="bi bi-arrow-right-square-fill"></i>Checkout</button>
+                    </li>
+                    
+                    <li>
+                        <button class="menu-category category-button" onclick="translate_home()"><i class="bi bi-house"></i>Home</button>
+                    </li>    
+
+                </ul>
+            </nav>
+            <footer>
+                <p class="footer-text">Derechos de Nacho,Franco,Pili © <a href="https://github.com/FrancoIvanFerreyra/TP1Intro" class="footer-text"><i class="bi bi-github"></i></a>
+                </p>
+            </footer>
+        </aside>
+        <main>
+            <h1 class="name-category" id="name-category-checkout">¡Ya casi es tuyo!</h1>
+            <h3 class="sub-title"> Complete los datos:</h3>
+            
+            <form onsubmit="send_form(event)">
+                <div class="checkout_nombre_apellido">
+                    <label for="name">Nombre</label>
+                    <input type="text" id="name" class="checkout_input" placeholder="John" name="name">
+                    <label for="surname">Apellido</label>
+                    <input type="text" id="surname" class="checkout_input" placeholder="Doe" name="surname">
+                </div>
+                <div class="checkout_email">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="checkout_input" placeholder="johndoe@example.com" size="35" name="email">
+                </div>
+                <div class="checkout_phone_number">
+                    <label for="phone_number">Numero celular</label>
+                    <input type="tel" id="phone_number" class="checkout_input" placeholder="11XXXXXXXX" maxlength="10" size="9" name="phone_number">
+                </div>
+                <div class="checkout_payment_method">
+                    <label for="payment_method">Metodo de pago:</label>
+                    <select id="payment_method" class="checkout_input" name="payment_method">
+                        <option value="CASH">Efectivo</option>
+                        <option value="BANK_TRANSFER">Transferencia por banco</option>
+                        <option value="EWALLET_TRANSFER">Mercado Pago</option>
+                        <option value="CREDIT_CARD">Crédito</option>
+                        <option value="DEBIT_CARD">Débito</option>
+                    </select>
+                </div>
+                <button type="submit" id="checkout_button">ENVIAR</button>
+            </form>
+        </main>
+    </div>
+    <script src="Js/checkout.js"></script>
+</body>
+</html>

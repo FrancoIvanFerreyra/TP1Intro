@@ -129,19 +129,6 @@ function updateTotalPrice(){
 }
 
 
-
-
-
-btnbuy.addEventListener("click", cartBuy);
-
-function cartBuy(){
-    productInCart.length = 0;
-    localStorage.setItem("product-cart", JSON.stringify(productInCart));
-    
-    cartEmpty.classList.add("disabled");
-    cartPurchase.classList.remove("disabled");
-    cartProducts.classList.add("disabled");
-    cartActions.classList.add("disabled");
+function translate_checkout(){
+    window.location.href="checkout.html"
 }
-
-

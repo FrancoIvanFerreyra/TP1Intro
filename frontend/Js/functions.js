@@ -42,6 +42,12 @@ function  load_products(id){
   
     const title = document.getElementById("main-title");
     title.innerText = category_list[id-1].name;
+
+
+    const homepage = document.getElementById("home-page");
+
+    homepage.innerHTML = "" 
+
    
     const products = document.getElementById("products-container");
     
@@ -80,7 +86,7 @@ function  load_products(id){
 //-----------------------Funcion para los errores ----------------------------------------------------------------
 
 function handle_error(){
-    return "error";
+    return "ERROR";
 }
 
 //----------------------------------------------------------------------------------------------------------------
