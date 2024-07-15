@@ -63,7 +63,6 @@ Listo para continuar a la instalación.
 ```
 
 python3 -m venv venv
-source venv/bin/activate
 
 ```
 
