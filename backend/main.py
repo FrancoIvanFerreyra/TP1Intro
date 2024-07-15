@@ -159,6 +159,15 @@ def change_file_path(product_id):
     return {"success": "Image moved correctly", "image": f"{category}/{secure_filename(name)}.{extension}"}, 200
   else:
     return jsonify("Image not found"), 400
+  
+@app.route('/images/<product_id>', methods=['DELETE'])
+def delete_file(product_id):
+  request.method = "GET"
+  path = "images/" + get_product(product_id)[0]["image"]
+  request.method = "DELETE"
+  if os.path.exists(path):
+    os.remove(path)
+  return {"success" : True}, 200
 
 
 @app.route("/categories", methods=["GET"])
