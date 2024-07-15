@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from models import db, Product, Category, Client, PurchaseOrder, PurchaseOrder_Product
 from sqlalchemy import func
+from werkzeug.utils import secure_filename
+import os
 
 
 
@@ -107,6 +109,65 @@ def add_new_product():
 
     #Result is OK
     return jsonify("Product saved correctly"), 200
+
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+    extension = get_file_extension(filename)
+    return '.' in filename and extension in ALLOWED_EXTENSIONS
+
+def get_file_extension(filename):
+   return filename.rsplit('.', 1)[1].lower()
+
+@app.route('/images/<category>', methods=['POST'])
+def upload_file(category, file = None):     
+  if not file:
+    if 'file' not in request.files:
+      return jsonify("Error: no image recieved"), 200
+    file = request.files['file']
+
+  # If the user does not select a file, the browser submits an
+  # empty file without a filename
+  if file.filename == '':
+      return jsonify("Error: no image selected"), 200
+        
+  if file and allowed_file(file.filename):
+      extension = get_file_extension(file.filename)
+      filename = secure_filename(request.form.get("name"))
+      file.save(os.path.join(f"images/{category}", f"{filename}.{extension}"))
+      return jsonify({"success":"Image uploaded correctly", "image": f"{category}/{filename}.{extension}"}), 200
+
+@app.route('/images/<product_id>', methods=['PUT'])
+def update_file(product_id):
+  request.method = "GET"
+  path = "images/" + get_product(product_id)[0]["image"]
+  request.method = "PUT"
+  category = request.form.get("category")
+  file = request.files["file"]
+  if os.path.exists(path):
+    os.remove(path)
+  return upload_file(category, file)
+
+
+@app.route('/images/<product_id>', methods=['PATCH'])
+def change_file_path(product_id):
+  path = "images/" + get_product(product_id)[0]["image"]
+  name = request.form.get("name")
+  category = request.form.get("category")
+  extension = get_file_extension(path)
+  if os.path.exists(path):
+    os.rename(path, f"images/{category}/{secure_filename(name)}.{extension}")
+    return {"success": "Image moved correctly", "image": f"{category}/{secure_filename(name)}.{extension}"}, 200
+  else:
+    return jsonify("Image not found"), 400
+  
+@app.route('/images/<product_id>', methods=['DELETE'])
+def delete_file(product_id):
+  request.method = "GET"
+  path = "images/" + get_product(product_id)[0]["image"]
+  request.method = "DELETE"
+  if os.path.exists(path):
+    os.remove(path)
+  return {"success" : True}, 200
 
 
 @app.route("/categories", methods=["GET"])
