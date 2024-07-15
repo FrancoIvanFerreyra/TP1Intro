@@ -315,7 +315,7 @@ main {
     font-size: larger;
 }
 
-.order-container, .error-container{
+.order-container, .message-container{
     display: grid;
     grid-template-rows: 0fr .5rem 0fr;
     gap: .7rem;
@@ -384,27 +384,158 @@ main {
     font-size: xx-large;
 }
 
-.error-container{
+.message-container{
     display: grid;
     grid-template-rows: 1fr 1fr;
     width: auto;
     text-align: center;
 }
 
-.error-text{
+.message-text{
     align-content: end;
     padding: 2rem 1rem;
     font-size: xx-large;
     color: white;
 }
 
-.error-img{
+.message-img{
     padding: 2rem 1rem;
     max-width: 8rem;
 }
 
-/*Desactivo todos los elementos del carrito solo para diseño
-*/
+/*Admin page*/
+
+.data-container{
+    display: grid;
+    grid-template-rows: 1fr 5fr;
+}
+
+.form-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 3fr 1fr;
+    background-color: aquamarine;
+    border-radius: 10px;
+}
+
+.form-img-container{
+    padding: 1rem;
+    grid-column: 1 / 3;
+    display: flex;
+    grid-row: 1 / 3;
+    /* grid-template-columns: 1fr; */
+    flex-direction: column;
+    align-items: center;
+    row-gap: 1rem;
+    padding: 2rem;
+}
+
+.img-uploaded{
+    width: 60%;
+    max-width: 13rem;
+    grid-column: 1 / 3;
+    justify-self: center;
+    align-content: center;
+    padding: 1rem;
+    align-self: center;
+}
+
+.img-upload-submit{
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
+    justify-self: center;
+    align-content: center;
+    font-size: large;
+    align-self: center;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 2px solid rgb(22, 160, 133);
+    border-radius: 4px;
+    background-color: rgb(22, 160, 133);
+    color: white;
+    font-size: 16px;
+    text-align: center;
+}
+
+.form-data-container{
+    padding: 1rem;
+    grid-column: 3 / 5;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.form-data{
+    display: grid;
+    gap: .5rem;
+    padding: .5rem .1rem;
+}
+
+.form-data-price{
+    grid-column: 2;
+    grid-row: 3;
+}
+
+.form-data-category{
+    grid-column: 1;
+    grid-row: 3;
+}
+
+.form-actions-container{
+    padding: 1rem;
+    grid-column: 3 / 5;
+    display: grid;
+    align-content: center;
+}
+
+.form-submit{
+    justify-self: end;
+    margin-right: 1.5rem;
+}
+
+.form-input-field-normal{
+    height: 2rem;
+    font-size: large;
+}
+
+.form-input-field-big{
+    height: 4rem;
+    font-size: medium;
+}
+
+/* .form-input-field-category{
+    grid-column: 1;
+    grid-row: 3;
+} */
+
+.form-input-field-price{
+    width: 12rem;
+    font-size: x-large;
+}
+
+.input-pad{
+    padding: .3rem;
+    color: black;
+}
+
+.wide{
+    grid-column: 1 / 3;
+}
+
+
+
+
+
+
+/*Desactivo todos los elementos del carrito solo para diseño*/
+
 .disabled{
     display: none;
 }

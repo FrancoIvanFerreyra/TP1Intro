@@ -16,36 +16,31 @@
             <nav>
                 <ul class="menu-nav" id="category">
                     <li>
-                        <button class="menu-category category-button active" onclick="translate_admin()">ADMIN</button>
-                    </li> 
-                    <li>
-                        <button class="menu-category category-button active" onclick="translate_home()"><i class="bi bi-house"></i>Home</button>
+                        <button class="menu-category category-button active" id="home"><i class="bi bi-house"></i>Home</button>
                     </li>                 
                     <li>
-                        <button class="menu-category category-button" onclick="translate_shopping()"><i class="bi bi-cash-coin"></i>Compras</button>
+                        <button class="menu-category category-button active" id="add"><i class="bi bi-house"></i>Agregar producto</button>
+                    </li>                 
+                    <li>
+                        <button class="menu-category category-button" id="edit"><i class="bi bi-cash-coin"></i>Modificar producto</button>
+                    </li>
+                    <li>
+                        <button class="menu-category category-button" id="delete"><i class="bi bi-cash-coin"></i>Eliminar producto</button>
                     </li>
 
                 </ul>
-                    <ul class="menu-nav">
-                        <li>
-                        <a  class="menu-cart category-button" onclick="translate_cart()"><i class="bi bi-cart4"></i>Carrito
-                            <span class="articles" id="number">0</span></a>
-                        </li>
-                    </ul>
             </nav>
             <footer>
                 <p class="footer-text">Derechos de Nacho,Franco,Pili ©
-                </p>
+                    </p>
             </footer>
         </aside>
-        <main>
+        <main class="data-container" id="data-container">
             <h2 class="name-category" id="main-title"></h2>
-            <div class="main-container-products" id="products-container"> 
-            </div>
 
         </main>
     </div>
-    <script src="Js/functions.js"></script>
+    <script type="module" src="Js/admin_func.js"></script>
 </body>
 </html>
 
